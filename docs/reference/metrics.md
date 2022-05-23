@@ -23,7 +23,7 @@ The metrics are listed under their full names here, but other parts of the docum
 This is a special metric that reports on the status of a bucket.
 
 When there are no issues with the bucket, the reported status will be `0`.
-A `0` means that *cloudmon* successfully connected to the bucket, retrieved the [*backup-definition*](backup-definitions) file, and parsed it.
+A `0` means that *cloudmon* successfully connected to the bucket, retrieved the [*backup-definition*](20-backup-definition/10-overview.md) file, and parsed it.
 
 If there is an issue with the bucket, the reported status will be an error code.
 Such an error code will always be an integer > `0` from the following list:
