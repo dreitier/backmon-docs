@@ -8,8 +8,8 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 const config = {
   title: 'cloudmon',
   tagline: 'Monitoring of backups in S3 buckets',
-  url: 'https://cloudmon.github.io',
-  baseUrl: '/',
+  url: 'https://dreitier.github.io',
+  baseUrl: '/cloudmon-docs/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
