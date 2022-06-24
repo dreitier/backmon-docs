@@ -5,17 +5,17 @@ sidebar_position: 1
 
 # Introduction
 
-*cloudmon* monitors backup file inside an S3 or Minio bucket.
-Each backup file definition can be exported in an Prometheus-compatible format. You can use tools like AlertManager to notify the SRE team if a backup is missing or some threshold has been missed.
+*cloudmon* monitors backup files inside a S3 or Minio bucket.
+Each backup file definition can be exported into a Prometheus-compatible format. You can use tools like [Alertmanager](https://prometheus.io/docs/alerting/latest/alertmanager/) to notify the SRE team if a backup is missing or some threshold has been missed. A threshold could be e.g. that the filesize of the backup file is too small.
 
 ## Goals
 The goals of *cloudmon* are:
 
-- Monitoring and supervising existing backup files (inspecting, overseeing, handling, controlling)
+- Monitoring and supervising existing backup files: inspecting, overseeing, handling, controlling
 - Overseeing backup processes
-- Collecting metric data about backups
+- Collecting metric data about backup files
 
 ## Features
-- Prometheus metrics
+- Export Prometheus metrics
 - Purging outdated backup files (erase, remove, delete)
-- Centralized backup downloads
+- Centralized download of backup files
