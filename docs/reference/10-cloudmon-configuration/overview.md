@@ -26,6 +26,7 @@ In the configuration file, you can use environment placeholders like `${VAR}`. T
 | `port` | `80` (*int*) | No | Default HTTP port to listen for requests. TLS is not supported at the moment. Consider using a proxy if you need encryption. |
 | `update_interval` | `1h` (*duration*) | No |  Checks each disk in that duration interval. |
 | `ignore_disks` | `<empty>` (*list of strings*) | No |  Each of the listed disks is ignored and won't be considered. | 
+| `downloads.enabled` | `false` | No | If `true`, the latest artifact of a monitored backup disk can be downloaded. This is disabled by default for security reasons ([#1](https://github.com/dreitier/cloudmon/issues/1)).|
 | `environments` | `<empty>` (*list of environment*) | No | Each `environment` to check. |
 | `environments[]` | `<empty>` (*string*) | __Yes__ |  Name of environment. |
 | `environments[].definitions` | `backup_definitions.yaml` (*string*) | No | YAML file containing the backup definitions. |
@@ -43,6 +44,9 @@ In the configuration file, you can use environment placeholders like `${VAR}`. T
 
 port: 8080
 update_interval: 1m
+downloads:
+  enabled: true
+
 ignore_disks:
   - disk_1
   - disk_2
