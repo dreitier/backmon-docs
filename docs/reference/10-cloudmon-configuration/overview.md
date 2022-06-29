@@ -27,6 +27,8 @@ In the configuration file, you can use environment placeholders like `${VAR}`. T
 | `update_interval` | `1h` (*duration*) | No |  Checks each disk in that duration interval. |
 | `ignore_disks` | `<empty>` (*list of strings*) | No |  Each of the listed disks is ignored and won't be considered. | 
 | `downloads.enabled` | `false` | No | If `true`, the latest artifact of a monitored backup disk can be downloaded. This is disabled by default for security reasons ([#1](https://github.com/dreitier/cloudmon/issues/1)).|
+| `http.basic_auth.username` | `<empty>` (*string*) | No | Username for HTTP Basic Authentication. If this is set, `http.basic_auth.password` must be also set. |
+| `http.basic_auth.password` | `<empty>` (*string*) | No | Password for HTTP Basic Authentication. If this is set, `http.basic_auth.username` must be also set. |
 | `environments` | `<empty>` (*list of environment*) | No | Each `environment` to check. |
 | `environments[]` | `<empty>` (*string*) | __Yes__ |  Name of environment. |
 | `environments[].definitions` | `backup_definitions.yaml` (*string*) | No | YAML file containing the backup definitions. |
@@ -47,6 +49,11 @@ update_interval: 1m
 downloads:
   enabled: true
 
+http:
+  basic_auth:
+    username: my_username
+    password: my_password
+	
 ignore_disks:
   - disk_1
   - disk_2
