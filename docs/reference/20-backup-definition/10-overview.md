@@ -16,7 +16,7 @@ You can overwrite the file naming in the [cloudmon configuration file](../10-clo
 | `directories[].fuse[]` | `<empty>` (*list of wildcard strings*) | No | Group files together by that substitutions. |
 | `directories[].defaults` | `<empty>` (*default configuration for directories[].files[]*) | No | Is applied for each of the `directories[].files[]`. Each `files[]` entry can overwrite the defaults. |
 | `directories[].defaults.schedule` | `<empty>` (*valid cron definition*) | No | Cron definition to check for files |
-| `directories[].defaults.sort` | `<empty>` (*mtime|atime*) | No | NOT YET. Sorting algorithm |
+| `directories[].defaults.sort` | `<empty>` (*one of `mtime`, `atime`*) | No | NOT YET. Sorting algorithm |
 | `directories[].defaults.purge` | `<empty>` (*bool*) | No | Purges each file which does not match `retention-age` or `retention-count`. If `purge` is set to `true`, without having an explicit retention, a limit von `14` days is assumed. |
 | `directories[].defaults.retention-count` | `<empty>` (*int*) | No | Keep max number of files |
 | `directories[].defaults.retention-age` | `<empty>` (*duration*) | No | Keep files newer than that |
