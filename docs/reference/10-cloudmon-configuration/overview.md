@@ -26,6 +26,7 @@ In the configuration file, you can use environment placeholders like `${VAR}`. T
 | `port` | `80` (*int*) | No | Default HTTP port to listen for requests. TLS is not supported at the moment. Consider using a proxy if you need encryption. |
 | `update_interval` | `1h` (*duration*) | No |  Checks each disk in that duration interval. |
 | `ignore_disks` | `<empty>` (*list of strings*) | No |  Each of the listed disks is ignored and won't be considered. | 
+| `log_level` | `<empty>` (*one of `debug`, `info`*) | No |  Used log level; will be overwritten if `--debug` is used. | 
 | `downloads.enabled` | `false` | No | If `true`, the latest artifact of a monitored backup disk can be downloaded. This is disabled by default for security reasons ([#1](https://github.com/dreitier/cloudmon/issues/1)).|
 | `http.basic_auth.username` | `<empty>` (*string*) | No | Username for HTTP Basic Authentication. If this is set, `http.basic_auth.password` must be also set. |
 | `http.basic_auth.password` | `<empty>` (*string*) | No | Password for HTTP Basic Authentication. If this is set, `http.basic_auth.username` must be also set. |
