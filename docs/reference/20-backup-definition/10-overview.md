@@ -1,4 +1,7 @@
-﻿# Overview
+﻿import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Overview
 
 The backup definition is a YAML file that describes the structure of your backups.
 In it, you provide the information that *cloudmon* needs to collect metric data, purge files, and offer file downloads.
@@ -10,13 +13,12 @@ You can overwrite the file naming in the [cloudmon configuration file](../10-clo
 
 ```yaml
 # use directory ./databases as the the root directory. You can have multiple directories in each YAML file.
-'./databases':
+'./databases/{{client}}':
   # alias is used for Prometheus metrics
   alias: DB
+  # assign variables
   fuse:
-    - '%Y'
-    - '%M'
-    - '%D'
+    - 'client'
   # apply those defaults to all files.* sections. You can override each parameter in the files.* section
   defaults:
     # expect that a backup file is generated at 00:30 each night
@@ -95,8 +97,9 @@ you would apply this configuration:
 ### Patterns
 
 #### Pattern variables
-A variable can be put on a *directory* pattern by using two curly braces (e.g. `{{variable}}`). For variable names only characters `0-9`, `A-Z`, `a-z`, and `_` are allowed.
-Variables can be referenced in a *file* pattern with help of `${variable}`.
+A variable can be put on a *directory* pattern by using two curly braces (e.g. `{{variable}}`). For variable names only characters `0-9`, `A-Z`, `a-z`, and `_` are allowed. Please note that you _should not_ override the variables names from the [substituions](substitutions).
+
+Variables can be referenced later on in a *file* pattern with help of `${variable}`.
 
 #### Pattern substitutions
 
@@ -106,34 +109,85 @@ See [Substitutions](substitutions).
 If specified, the label `dir` for the epxorted Prometheues metrics will be overwritten with the given alias.
 
 #### Without `.alias`
+```mdx-code-block
+<Tabs>
+<TabItem value="yaml" label="backup_definition.yaml" default>
+```
 ```yaml
 './backups':
   files:
     'dump-%Y%M%D.sql':
 ```
-
+```mdx-code-block
+</TabItem>
+<TabItem value="bash" label="Prometheus output">
 ```
-# Prometheus
-cloudmon_backup_file_age_aim_seconds{dir="./backups",disk="_samples/1.postgres-dumps",file="dump-%Y%M%D.sql"} ```
+```bash
+cloudmon_backup_file_age_aim_seconds{dir="./backups",disk="_samples/1.postgres-dumps",file="dump-%Y%M%D.sql"}
+```
+```mdx-code-block
+</TabItem>
+</Tabs>
 ```
 
 #### With `.alias` specified
+```mdx-code-block
+<Tabs>
+<TabItem value="yaml" label="backup_definition.yaml" default>
+```
 ```yaml
 './backups':
   alias: "custom_backups"
   files:
     'dump-%Y%M%D.sql':
 ```
-
+```mdx-code-block
+</TabItem>
+<TabItem value="bash" label="Prometheus output">
 ```
-# Prometheus
+```bash
 cloudmon_backup_file_age_aim_seconds{dir="custom_backups",disk="_samples/1.postgres-dumps",file="dump-%Y%M%D.sql"}
 ```
+```mdx-code-block
+</TabItem>
+</Tabs>
+```
+
 
 ### `[$directory].fuse`
-`fuse` is the replacement for the original `grouping` field. In contract, `fuse` has to be defined on a per-directory level.
+Sometimes you need to group files together which belong logically to the same backup set but are split across different directories.
 
-If no sorting behaviour is defined, the sorting algorithm `interpolation` is used. `interpolation` uses substituion-based date fields and fills all missing information with help of `modified_at` date of the file.
+```mdx-code-block
+<Tabs>
+<TabItem value="bash" label="Directory structure" default>
+Let's group together the following backup `.sql` files:
+```
+```bash
+backups/2022/01/postgres/some_subdir
+- 20220101.sql
+backups/2022/02/postgres/some_subdir
+- 20220201.sql
+backups/2022/03/postgres/some_subdir
+- 20220301.sql
+```
+```mdx-code-block
+</TabItem>
+<TabItem value="yaml" label="backup_definition.yaml">
+```
+```yaml
+'./backups/{{of_year}/{{of_month}}/postgres/{{some_subdir}}':
+  alias: "backups"
+  fuse:
+    - 'of_year'
+	- 'of_month'
+  files:
+    'dump-%Y%M%D.sql':
+	  alias: 'postgres'
+```
+```mdx-code-block
+</TabItem>
+</Tabs>
+```
 
 ### `[$directory].defaults.*`
 If you want to use the same configuration over multiple `[$directory].files[$file]` sections, you can use `.defaults`.
@@ -145,6 +199,36 @@ With `.defaults` you can apply the configuration keys
 - `.retention-age`
 
 as defaults for each `[$directory].files[$file].*` section. You can can override the default key value in each `[$directory].files[$file]` section.
+
+### `[$directory].files[$file]`
+Each `[$directory].files[$file]` key supports so called [substitutions](substitutions). They are basically simplified regular expressions. Some of those substitutions like '%Y' and '%M' are used to update the file's `interpolated_timestamp'.
+
+```mdx-code-block
+<Tabs>
+<TabItem value="bash" label="Directory structure" default>
+```
+```bash
+backups-1/
+- dump-20220401.sql
+- dump-20220501.sql
+- dump-20220601.sql
+- dump-20220701.sql
+```
+```mdx-code-block
+</TabItem>
+<TabItem value="yaml" label="backup_definition.yaml">
+```
+```yaml
+./backups-1:
+  alias: "backups"
+  files: 
+    'dump-%Y%M%D.sql':
+```
+```mdx-code-block
+</TabItem>
+</Tabs>
+```
+
 
 ### `[$directory].files[$file].schedule`
 Put in your crontab definition for when the backup should occur.
@@ -175,26 +259,46 @@ If `.purge` is set to true, files older then `.retention-age` are purged. Pleas 
 If specified, the label `file` for the epxorted Prometheues metrics will be overwritten with the given alias.
 
 #### Without `.alias`
+```mdx-code-block
+<Tabs>
+<TabItem value="yaml" label="backup_definition.yaml" default>
+```
 ```yaml
 './backups':
   files:
     'dump-%Y%M%D.sql':
 ```
-
+```mdx-code-block
+</TabItem>
+<TabItem value="bash" label="Prometheus output">
 ```
-# Prometheus
-cloudmon_backup_file_age_aim_seconds{dir="./backups",disk="_samples/1.postgres-dumps",file="dump-%Y%M%D.sql"} ```
+```bash
+cloudmon_backup_file_age_aim_seconds{dir="./backups",disk="_samples/1.postgres-dumps",file="dump-%Y%M%D.sql"}
+```
+```mdx-code-block
+</TabItem>
+</Tabs>
 ```
 
 #### With `.alias` specified
+```mdx-code-block
+<Tabs>
+<TabItem value="yaml" label="backup_definition.yaml" default>
+```
 ```yaml
 './backups':
   files:
     'dump-%Y%M%D.sql':
     alias: "pg-dump"
 ```
-
+```mdx-code-block
+</TabItem>
+<TabItem value="bash" label="Prometheus output">
 ```
-# Prometheus
+```bash
 cloudmon_backup_file_age_aim_seconds{dir="./backups",disk="_samples/1.postgres-dumps",file="pg-dump"}
+```
+```mdx-code-block
+</TabItem>
+</Tabs>
 ```
