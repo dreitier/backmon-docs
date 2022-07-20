@@ -60,24 +60,24 @@ This is basically the value which comes from the variable interpolation of the f
 Describes how long it took to create the backup file in seconds. This is 0 if born_at and modified_at have the same value.
 
 ### `cloudmon_backup_latest_file_born_at`
-Unix timestamp on which the latest file has been initially created. See [.stat files](backup-definition/dot-stat-files).
+Unix timestamp on which the latest file has been initially created. See [.stat files](backup-definition/file-dates).
 
 ### `cloudmon_backup_latest_file_modified_at`
-Unix timestamp on which the latest file has been modified. See [.stat files](backup-definition/dot-stat-files).
+Unix timestamp on which the latest file has been modified. See [.stat files](backup-definition/file-dates).
 
 ### `cloudmon_backup_latest_file_archived_at`
-Unix timestamp on which the latest file has been archived. See [.stat files](backup-definition/dot-stat-files).
+Unix timestamp on which the latest file has been archived. See [.stat files](backup-definition/file-dates).
 
 ### `cloudmon_backup_latest_size_bytes`
 Size (in bytes) of the latest backup in the corresponding file group.
 
 ## A note about `cloudmon_backup_latest_file_*_at`
-Due to limitations described in the [.stat files](backup-definition/dot-stat-files) section, you have to provide the values for 
+Due to [file system limitations](backup-definition/file-dates) section, you have to provide the values for 
 - `cloudmon_backup_latest_file_born_at`
 - `cloudmon_backup_latest_file_modified_at`
 - `cloudmon_backup_latest_file_archived_at`
 
-through a [.stat file](backup-definition/dot-stat-files). If you do not that, each of the metrics will have the same value/timestamp.
+through a [.stat file](backup-definition/file-dates#stat--dotstat-files). If you do not that, each of the metrics will have the same value/timestamp.
 
 ## Labels
 The following table shows which labels are defined for each metric.

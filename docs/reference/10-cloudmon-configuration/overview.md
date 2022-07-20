@@ -19,9 +19,9 @@ In the configuration file, you can use environment placeholders like `${VAR}`. T
 | --- | --- | --- |
 | `--debug` | `false` (*bool*) | Enable debug output; overwrites any log setting from `config.yaml` |
 
-## Configuration file `config.yaml`
+## Available configuration keys
 
-| Parameter | Default | Required | Description |
+| Key | Default | Required | Description |
 | --- | --- | --- | --- |
 | `port` | `80` (*int*) | No | Default HTTP port to listen for requests. TLS is not supported at the moment. Consider using a proxy if you need encryption. |
 | `update_interval` | `1h` (*duration*) | No |  Checks each disk in that duration interval. |
@@ -32,14 +32,14 @@ In the configuration file, you can use environment placeholders like `${VAR}`. T
 | `http.basic_auth.password` | `<empty>` (*string*) | No | Password for HTTP Basic Authentication. If this is set, `http.basic_auth.username` must be also set. |
 | `environments` | `<empty>` (*list of environment*) | No | Each `environment` to check. |
 | `environments[]` | `<empty>` (*string*) | __Yes__ |  Name of environment. |
-| `environments[].definitions` | `backup_definitions.yaml` (*string*) | No | YAML file containing the backup definitions. |
-| `environments[].path` | `<empty>` (*string*) | No | Local path to check for. If you use the `path` parameter, other parameters specific for S3 are ignored. |
-| `environments[].region` | `eu-central-1` (*string*) | No | AWS region |
-| `environments[].force_path_style` | `false` (*bool*) | No | Use path-style for that S3 bucket. This is deprecated by AWS S3 and should be probably `false`. |
-| `environments[].access_key_id` | `<empty>` (*string*) | __Yes__ | AWS Access Key |
-| `environments[].secret_access_key` | `<empty>` (*string*) | __Yes__ | AWS Secret Access Key |
-| `environments[].endpoint` | `<empty>` (*string*) | No | Custom AWS S3 endpoint. This must be used for Minio buckets or if you are using a local S3 instance. |
-| `environments[].token` | `<empty>` (*string*) | No | AWS STS session token. You can leave that empty. |
+| `environments[$env].definitions` | `backup_definitions.yaml` (*string*) | No | YAML file containing the backup definitions. |
+| `environments[$env].path` | `<empty>` (*string*) | No | Local path to check for. If you use the `path` parameter, other parameters specific for S3 are ignored. |
+| `environments[$env].region` | `eu-central-1` (*string*) | No | AWS region |
+| `environments[$env].force_path_style` | `false` (*bool*) | No | Use path-style for that S3 bucket. This is deprecated by AWS S3 and should be probably `false`. |
+| `environments[$env].access_key_id` | `<empty>` (*string*) | __Yes__ | AWS Access Key |
+| `environments[$env].secret_access_key` | `<empty>` (*string*) | __Yes__ | AWS Secret Access Key |
+| `environments[$env].endpoint` | `<empty>` (*string*) | No | Custom AWS S3 endpoint. This must be used for Minio buckets or if you are using a local S3 instance. |
+| `environments[$env].token` | `<empty>` (*string*) | No | AWS STS session token. You can leave that empty. |
 
 ### Sample configuration file
 
