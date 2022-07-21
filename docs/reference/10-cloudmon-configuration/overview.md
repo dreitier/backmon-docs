@@ -32,13 +32,13 @@ http:
   basic_auth:
     username: my_username
     password: my_password
-	
 
 disks:
   include:
     - my-bucket-1
   exclude:
     - my-secret-bucket-2
+	- "/regular_ex.*ssions_are_supported/"
   all_others: exclude
 
 environments:
@@ -56,8 +56,8 @@ environments:
 | --- | --- | --- | --- |
 | `port` | `80` (*int*) | No | Default HTTP port to listen for requests. TLS is not supported at the moment. Consider using a proxy if you need encryption. |
 | `update_interval` | `1h` (*duration*) | No |  Checks each disk in that duration interval. |
-| `disks.include` | `<empty>` (*list of strings*) | No |  Only include the disks with the given name, case-sensitive. | 
-| `disks.exclude` | `<empty>` (*list of strings*) | No |  Only include the disks with the given name, case-sensitive. | 
+| `disks.include` | `<empty>` (*list of strings*) | No |  Only include the disks with the given name; case-sensitive; regular expressions are supported. | 
+| `disks.exclude` | `<empty>` (*list of strings*) | No |  Only include the disks with the given name; case-sensitive; regular expressions are supported. | 
 | `disks.all_others` | `include` (*one of `include`, `exclude`*) | No | Behaviour for disks which are not explicitly included or excluded. | 
 | `log_level` | `<empty>` (*one of `debug`, `info`*) | No |  Used log level; will be overwritten if `--debug` is used. | 
 | `downloads.enabled` | `false` | No | If `true`, the latest artifact of a monitored backup disk can be downloaded. This is disabled by default for security reasons ([#1](https://github.com/dreitier/cloudmon/issues/1)).|
@@ -77,8 +77,18 @@ environments:
 ## `disks`
 The `disks` section allows you to include or exclude disks which have been found during the discovery phase.
 
-- A disk is included if it is defined `disks.include`
-- A disk is excluded if it is defined `disks.exclude`
+- A disk is included if it is defined in `disks.include` or one of those regular expressions matches
+- A disk is excluded if it is defined in `disks.exclude` or one of those regular expressions matches
 - If a disk is defined in `disks.include` __and__ `disks.exclude`, the behaviour of `disks.all_others` is applied (`include` by default)
 - If a disk is not explicitly defined in `disks.include` or `disks.exclude`, the behaviour of `disks.all_others` is applied (`include` by default)
 - If a disk contains a [`.cloudmonignore`](storage#ignoring-disks) marker file of the root of the disk, the disk is excluded - no matter of any `disks.*` configurations.
+
+To use a regular expression in `disks.include` or `disks.exclude`, you have to put a slash (`/`) before and after the regular expression:
+
+```yaml
+disks:
+  include:
+    - "/(\d{8})\-etcd/"
+  exclude:
+	- "/regular_ex.*ssions_are_supported/"
+```
