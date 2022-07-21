@@ -19,13 +19,46 @@ In the configuration file, you can use environment placeholders like `${VAR}`. T
 | --- | --- | --- |
 | `--debug` | `false` (*bool*) | Enable debug output; overwrites any log setting from `config.yaml` |
 
+## Sample configuration file
+
+```yaml
+
+port: 8080
+update_interval: 1m
+downloads:
+  enabled: true
+
+http:
+  basic_auth:
+    username: my_username
+    password: my_password
+	
+
+disks:
+  include:
+    - my-bucket-1
+  exclude:
+    - my-secret-bucket-2
+  all_others: exclude
+
+environments:
+  env_1:
+    path: /my/backups
+  env_2:
+    access_key_id: my_access_key_id
+	secret_access_key: my_secret_access_key
+    
+```
+
 ## Available configuration keys
 
 | Key | Default | Required | Description |
 | --- | --- | --- | --- |
 | `port` | `80` (*int*) | No | Default HTTP port to listen for requests. TLS is not supported at the moment. Consider using a proxy if you need encryption. |
 | `update_interval` | `1h` (*duration*) | No |  Checks each disk in that duration interval. |
-| `ignore_disks` | `<empty>` (*list of strings*) | No |  Each of the listed disks is ignored and won't be considered. | 
+| `disks.include` | `<empty>` (*list of strings*) | No |  Only include the disks with the given name, case-sensitive. | 
+| `disks.exclude` | `<empty>` (*list of strings*) | No |  Only include the disks with the given name, case-sensitive. | 
+| `disks.all_others` | `include` (*one of `include`, `exclude`*) | No | Behaviour for disks which are not explicitly included or excluded. | 
 | `log_level` | `<empty>` (*one of `debug`, `info`*) | No |  Used log level; will be overwritten if `--debug` is used. | 
 | `downloads.enabled` | `false` | No | If `true`, the latest artifact of a monitored backup disk can be downloaded. This is disabled by default for security reasons ([#1](https://github.com/dreitier/cloudmon/issues/1)).|
 | `http.basic_auth.username` | `<empty>` (*string*) | No | Username for HTTP Basic Authentication. If this is set, `http.basic_auth.password` must be also set. |
@@ -41,29 +74,11 @@ In the configuration file, you can use environment placeholders like `${VAR}`. T
 | `environments[$env].endpoint` | `<empty>` (*string*) | No | Custom AWS S3 endpoint. This must be used for Minio buckets or if you are using a local S3 instance. |
 | `environments[$env].token` | `<empty>` (*string*) | No | AWS STS session token. You can leave that empty. |
 
-### Sample configuration file
+## `disks`
+The `disks` section allows you to include or exclude disks which have been found during the discovery phase.
 
-```yaml
-
-port: 8080
-update_interval: 1m
-downloads:
-  enabled: true
-
-http:
-  basic_auth:
-    username: my_username
-    password: my_password
-	
-ignore_disks:
-  - disk_1
-  - disk_2
- 
-environments:
-  env_1:
-    path: /my/backups
-  env_2:
-    access_key_id: my_access_key_id
-	secret_access_key: my_secret_access_key
-    
-```
+- A disk is included if it is defined `disks.include`
+- A disk is excluded if it is defined `disks.exclude`
+- If a disk is defined in `disks.include` __and__ `disks.exclude`, the behaviour of `disks.all_others` is applied (`include` by default)
+- If a disk is not explicitly defined in `disks.include` or `disks.exclude`, the behaviour of `disks.all_others` is applied (`include` by default)
+- If a disk contains a [`.cloudmonignore`](storage#ignoring-disks) marker file of the root of the disk, the disk is excluded - no matter of any `disks.*` configurations.

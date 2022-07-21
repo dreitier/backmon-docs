@@ -33,7 +33,7 @@ Your AWS account contains the following S3 buckets:
 
 Each of those buckets is considered as disk. You have to put a `backup_definition.yaml` at `s3://bucket-1/backup_definition.yaml`, `s3://bucket-2/backup_definition.yaml` and `s3://bucket-3/backup_definition.yaml`.
 
-- If you want to ignore a bucket, either use the `ignore_disks` parameter or the `.cloudmonignore` marker file described below.
+- If you want to ignore a bucket, either use the `disks.exclude` configuration key or the `.cloudmonignore` marker file described below.
 - If your access key does not have the `ListBucket` permission for one the buckets, the buckets get ignored.
 
 #### IAM policy setup
