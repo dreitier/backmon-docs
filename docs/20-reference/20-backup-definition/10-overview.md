@@ -44,7 +44,7 @@ You can overwrite the file naming in the [cloudmon configuration file](../10-clo
 
 | Key | Default | Required | Description |
 | --- | --- | --- | --- |
-| `[$directory]` | `<empty>` (*string*) | __Yes__ | Directory name inside the disk, relative to the `backup_definition.yaml`. |
+| `[$directory]` | `<empty>` (*string*) | __Yes__ | Directory name inside the disk, relative to the `backup_definitions.yaml`. |
 | `[$directory].alias` | `<name of directory>` (*string*) | No | Used alias when exporting metrics. |
 | `[$directory].fuse[]` | `<empty>` (*list of wildcard strings*) | No | Group files together by that substitutions. |
 | `[$directory].defaults.*` | `<empty>` (*any of .schedule, .sort, .purge, .retention-count, .retention-age*) | No | Apply those defaults for each `[$directory].files[$file]` section. Each `[$directory].files[$file].*` key can override this default |
@@ -58,11 +58,11 @@ You can overwrite the file naming in the [cloudmon configuration file](../10-clo
 
 
 ## `[$directory]`
-The root elements for each `backup_definition.yaml` are the names of the subdirectories in a disk.
+The root elements for each `backup_definitions.yaml` are the names of the subdirectories in a disk.
 
 For a directory like
 ```
-backup_definition.yaml
+backup_definitions.yaml
 /backup-1/
   backup1.tar.gz
   backup2.tar.gz
@@ -70,7 +70,7 @@ backup_definition.yaml
   backup1.tar.gz
   backup2.tar.gz
 ```
-you would apply the following configuration inside the `backup_definition.yaml`:
+you would apply the following configuration inside the `backup_definitions.yaml`:
 
 ```yaml
 './backup-1':
@@ -79,10 +79,10 @@ you would apply the following configuration inside the `backup_definition.yaml`:
   # ... configuration options
 ```
 
-If your `backup_definition.yaml` is in the same directory as the backups, like
+If your `backup_definitions.yaml` is in the same directory as the backups, like
 
 ```
-backup_definition.yaml
+backup_definitions.yaml
 backup1.tar.gz
 backup2.tar.gz
 ```
@@ -111,7 +111,7 @@ If specified, the label `dir` for the epxorted Prometheues metrics will be overw
 #### Without `.alias`
 ```mdx-code-block
 <Tabs>
-<TabItem value="yaml" label="backup_definition.yaml" default>
+<TabItem value="yaml" label="backup_definitions.yaml" default>
 ```
 ```yaml
 './backups':
@@ -133,7 +133,7 @@ cloudmon_backup_file_age_aim_seconds{dir="./backups",disk="_samples/1.postgres-d
 #### With `.alias` specified
 ```mdx-code-block
 <Tabs>
-<TabItem value="yaml" label="backup_definition.yaml" default>
+<TabItem value="yaml" label="backup_definitions.yaml" default>
 ```
 ```yaml
 './backups':
@@ -172,7 +172,7 @@ backups/2022/03/postgres/some_subdir
 ```
 ```mdx-code-block
 </TabItem>
-<TabItem value="yaml" label="backup_definition.yaml">
+<TabItem value="yaml" label="backup_definitions.yaml">
 ```
 ```yaml
 './backups/{{of_year}/{{of_month}}/postgres/{{some_subdir}}':
@@ -216,7 +216,7 @@ backups-1/
 ```
 ```mdx-code-block
 </TabItem>
-<TabItem value="yaml" label="backup_definition.yaml">
+<TabItem value="yaml" label="backup_definitions.yaml">
 ```
 ```yaml
 ./backups-1:
@@ -261,7 +261,7 @@ If specified, the label `file` for the epxorted Prometheues metrics will be over
 #### Without `.alias`
 ```mdx-code-block
 <Tabs>
-<TabItem value="yaml" label="backup_definition.yaml" default>
+<TabItem value="yaml" label="backup_definitions.yaml" default>
 ```
 ```yaml
 './backups':
@@ -283,7 +283,7 @@ cloudmon_backup_file_age_aim_seconds{dir="./backups",disk="_samples/1.postgres-d
 #### With `.alias` specified
 ```mdx-code-block
 <Tabs>
-<TabItem value="yaml" label="backup_definition.yaml" default>
+<TabItem value="yaml" label="backup_definitions.yaml" default>
 ```
 ```yaml
 './backups':

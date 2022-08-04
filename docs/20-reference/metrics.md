@@ -36,7 +36,7 @@ Status | Meaning
 > **TBD**: error codes
 
 ### `cloudmon_backup_file_count_aim`
-Reports the desired file count, as specified by the `retention-count` setting in the *backup_definition*.
+Reports the desired file count, as specified by the `retention-count` setting in the *backup_definitions.yaml*.
 
 ### `cloudmon_backup_file_count`
 Reports the actual file count.
