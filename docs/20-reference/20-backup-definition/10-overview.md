@@ -7,7 +7,7 @@ The backup definition is a YAML file that describes the structure of your backup
 In it, you provide the information that *cloudmon* needs to collect metric data, purge files, and offer file downloads.
 
 *cloudmon* looks for the backup definition file called `backup_definitions.yaml` at the root directory of your disk. 
-You can overwrite the file naming in the [cloudmon configuration file](../10-cloudmon-configuration/overview.md).
+You can overwrite the file naming in the [cloudmon configuration file](../10-cloudmon-configuration/01-overview.md).
 
 ### Sample `backup_definitions.yaml` file
 
