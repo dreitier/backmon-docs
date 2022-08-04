@@ -29,9 +29,8 @@ In the AWS management console, go to *IAM > Users > Add users* and create a dedi
 ## 2. Set up a policy
 In the AWS managent console, go to *IAM > Policies > Create policy* and create a new JSON policy with the following content:
 
-:::caution
-At the moment, the permission `ListAllMyBuckets` is still required. Please see [issue #9](https://github.com/dreitier/cloudmon/issues/9).
-:::
+## 2.1. Using auto-discovery
+By default, *cloudmon* scans all S3 buckets which belongs to the user's AWS account. This requires the `ListAllMyBuckets` permission:
 
 ```yaml
 {
@@ -72,7 +71,33 @@ At the moment, the permission `ListAllMyBuckets` is still required. Please see [
 }
 ```
 
-Depending upon the used functionality of *cloudmon*, you can adjust the permissions for `DownloadAndPurgeFiles`:
+### 2.2. Explicitly white-listing buckets
+In some environments the `ListAllMyBuckets` permission is not allowed to be assigned: Even if the user *cloudmon* user can not access the content of restrictetd buckets, it might leak sensitive information through the naming of the buckets.
+You can drop the `ListAllBuckets` statement from the IAM policy above. You then have to update your `config.yaml` with the following configuration:
+
+```yaml
+disks:
+  include:
+    - bucket-1
+    - bucket-2
+    - bucket-3
+
+environments:
+  aws_prod:
+    # ...
+	# set `auto_discover_disks` to false
+	auto_discover_disks: false
+```
+
+With that configuration, only bucket `bucket-1`, `bucket-2` and `bucket-3` are included.
+
+:::caution
+With whitelisting buckets, you have to specify the full name of the bucket. Using regular expressions is __not__ possible.
+:::
+
+### 2.3. Configure permissions and attach to user
+
+Depending upon the used functionality of *cloudmon*, you can also adjust the permissions for the `DownloadAndPurgeFiles` statement:
 
 | IAM permission | Required for |
 | --- | --- | 
@@ -91,6 +116,7 @@ environments:
   my_aws_environment:
     access_key_id: ${ACCESS_KEY_ID}
     secret_access_key: ${SECRET_ACCESS_KEY}
+    auto_discover_disks: true
 ```
 
 ### 3.2. When using Helm
@@ -110,6 +136,7 @@ cloudmon:
       access_key_id: ${CLOUDMON_AWS_PROD_ACCESS_KEY_ID}
       region: eu-central-1
       secret_access_key: ${CLOUDMON_AWS_PROD_SECRET_ACCESS_KEY}
+	  auto_discover_disks: true
   log_level: debug
   secrets:
     - key: CLOUDMON_AWS_PROD_ACCESS_KEY_ID

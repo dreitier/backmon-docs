@@ -47,6 +47,7 @@ environments:
   env_2:
     access_key_id: my_access_key_id
 	secret_access_key: my_secret_access_key
+    auto_discover_disks: true
     
 ```
 
@@ -73,6 +74,7 @@ environments:
 | `environments[$env].secret_access_key` | `<empty>` (*string*) | __Yes__ | AWS Secret Access Key |
 | `environments[$env].endpoint` | `<empty>` (*string*) | No | Custom AWS S3 endpoint. This must be used for Minio buckets or if you are using a local S3 instance. |
 | `environments[$env].token` | `<empty>` (*string*) | No | AWS STS session token. You can leave that empty. |
+| `environments[$env].auto_discover_disks` | `true` (*bool*) | No | Automatically iterate over each S3 bucket. |
 
 ## `disks`
 The `disks` section allows you to include or exclude disks which have been found during the discovery phase.
@@ -92,3 +94,7 @@ disks:
   exclude:
 	- "/regular_ex.*ssions_are_supported/"
 ```
+
+:::info
+If you have set `environments[$env].auto_discover_disks` to `false`, only the `disks.include` configuration parameter makes any sense.
+:::
