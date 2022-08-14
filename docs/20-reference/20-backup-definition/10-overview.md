@@ -12,7 +12,8 @@ You can overwrite the file naming in the [cloudmon configuration file](../10-clo
 ### Sample `backup_definitions.yaml` file
 
 ```yaml
-# use directory ./databases as the the root directory. You can have multiple directories in each YAML file.
+# use directory ./databases as the the root directory. You can have multiple directories in each YAML file. 
+# use '.' if the definitions file is in the same directory as your backups.
 './databases/{{client}}':
   # alias is used for Prometheus metrics
   alias: DB
@@ -60,38 +61,63 @@ You can overwrite the file naming in the [cloudmon configuration file](../10-clo
 ## `[$directory]`
 The root elements for each `backup_definitions.yaml` are the names of the subdirectories in a disk.
 
-For a directory like
-```
-backup_definitions.yaml
-/backup-1/
-  backup1.tar.gz
-  backup2.tar.gz
-/backup-2/
-  backup1.tar.gz
-  backup2.tar.gz
-```
-you would apply the following configuration inside the `backup_definitions.yaml`:
+### Location of backup directories
+#### Backups in the same directory
+When backups are in the same directory with the `backup_definitions.yaml`, you have to use `.` or `./` as root element:
 
-```yaml
-'./backup-1':
-  # ... configuration options
-'./backup-2':
-  # ... configuration options
+```mdx-code-block
+<Tabs>
+<TabItem value="bash" label="Directory structure" default>
 ```
-
-If your `backup_definitions.yaml` is in the same directory as the backups, like
-
+```bash
+- backup_definitions.yaml
+- backup1.tar.gz
+- backup2.tar.gz
 ```
-backup_definitions.yaml
-backup1.tar.gz
-backup2.tar.gz
+```mdx-code-block
+</TabItem>
+<TabItem value="yaml" label="backup_definitions.yaml">
 ```
-
-you would apply this configuration:
-
 ```yaml
 './':
+  alias: root
   # ... configuration options
+```
+```mdx-code-block
+</TabItem>
+</Tabs>
+```
+
+#### Backups in subdirectories
+
+```mdx-code-block
+<Tabs>
+<TabItem value="bash" label="Directory structure" default>
+```
+```bash
+- backup_definitions.yaml
++ /backup-1/
+  - backup1.tar.gz
+  - backup2.tar.gz
++ /backup-2/
+  - backup1.tar.gz
+  - backup2.tar.gz
+```
+```mdx-code-block
+</TabItem>
+<TabItem value="yaml" label="backup_definitions.yaml">
+```
+```yaml
+'./backup-1':
+  alias: root-1
+  # ... configuration options
+'./backup-2':
+  alias: root-2
+  # ... configuration options
+ ```
+```mdx-code-block
+</TabItem>
+</Tabs>
 ```
 
 ### Patterns
