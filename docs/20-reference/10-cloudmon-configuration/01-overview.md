@@ -32,6 +32,10 @@ http:
   basic_auth:
     username: my_username
     password: my_password
+  tls:
+    certificate: server.rsa.crt
+    key: server.rsa.key
+    strict: true
 
 disks:
   include:
@@ -59,11 +63,14 @@ environments:
 | `update_interval` | `1h` (*duration*) | No |  Checks each disk in that duration interval. |
 | `disks.include` | `<empty>` (*list of strings*) | No |  Only include the disks with the given name; case-sensitive; regular expressions are supported. | 
 | `disks.exclude` | `<empty>` (*list of strings*) | No |  Only include the disks with the given name; case-sensitive; regular expressions are supported. | 
-| `disks.all_others` | `include` (*one of `include`, `exclude`*) | No | Behaviour for disks which are not explicitly included or excluded. | 
+| `disks.all_others` | `include` (*one of `include`, `exclude`*) | No | Behaviour for disks which are not explicitly included or excluded. |
 | `log_level` | `<empty>` (*one of `debug`, `info`*) | No |  Used log level; will be overwritten if `--debug` is used. | 
 | `downloads.enabled` | `false` | No | If `true`, the latest artifact of a monitored backup disk can be downloaded. This is disabled by default for security reasons ([#1](https://github.com/dreitier/cloudmon/issues/1)).|
 | `http.basic_auth.username` | `<empty>` (*string*) | No | Username for HTTP Basic Authentication. If this is set, `http.basic_auth.password` must be also set. |
 | `http.basic_auth.password` | `<empty>` (*string*) | No | Password for HTTP Basic Authentication. If this is set, `http.basic_auth.username` must be also set. |
+| `http.tls.certificate` | `<empty>` (*string*) | No | Path to certificate file. If this is set, `http.tls.key` must be also set. |
+| `http.tls.key` | `<empty>` (*string*) | No | Path to private key file. If this is set, `http.tls.certificate` must be also set. |
+| `http.tls.strict` | `false` (*bool*) | No | If set to true, a preferred TLS default configuration is used. |
 | `environments` | `<empty>` (*list of environment*) | No | Each `environment` to check. |
 | `environments[]` | `<empty>` (*string*) | __Yes__ |  Name of environment. |
 | `environments[$env].definitions` | `backup_definitions.yaml` (*string*) | No | YAML file containing the backup definitions. |
