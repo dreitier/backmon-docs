@@ -19,6 +19,12 @@ The prometheus endpoint is reachable on the *cloudmon* host under the `/metrics`
 All of the metrics offered by *cloudmon* begin with the prefix `cloudmon_backup_`. 
 The metrics are listed under their full names here, but other parts of the documentation may omit this prefix for the sake of brevity.
 
+### `cloudmon_environments_total`
+Total number of environments, configured in the `config.yaml`.
+
+### `cloudmon_disks_total`
+Total number of discovered disks. This includes also the number of inactive disks, e.g. if permissions are missing.
+
 ### `cloudmon_backup_status`
 This is a special metric that reports on the status of a bucket.
 
@@ -101,6 +107,12 @@ Metric | disk | dir | file | group |
 ## Sample output from the `/api/metrics` endpoint
 
 ```
+# HELP cloudmon_disks_total Total number of registered disks
+# TYPE cloudmon_disks_total gauge
+cloudmon_disks_total 0
+# HELP cloudmon_environments_total Total number of environments
+# TYPE cloudmon_environments_total gauge
+cloudmon_environments_total 1
 # HELP cloudmon_backup_file_age_aim_seconds The maximum age (in seconds) that any file in this group should reach.
 # TYPE cloudmon_backup_file_age_aim_seconds gauge
 cloudmon_backup_file_age_aim_seconds{dir="postgres",disk="samples/1.postgres-dumps",file="pgdump"} 0
