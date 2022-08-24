@@ -4,10 +4,10 @@ import TabItem from '@theme/TabItem';
 # Overview
 
 The backup definition is a YAML file that describes the structure of your backups.
-In it, you provide the information that *cloudmon* needs to collect metric data, purge files, and offer file downloads.
+In it, you provide the information that *backmon* needs to collect metric data, purge files, and offer file downloads.
 
-*cloudmon* looks for the backup definition file called `backup_definitions.yaml` at the root directory of your disk. 
-You can overwrite the file naming in the [cloudmon configuration file](../10-cloudmon-configuration/01-overview.md).
+*backmon* looks for the backup definition file called `backup_definitions.yaml` at the root directory of your disk. 
+You can overwrite the file naming in the [backmon configuration file](../10-backmon-configuration/01-overview.md).
 
 ### Sample `backup_definitions.yaml` file
 
@@ -149,7 +149,7 @@ If specified, the label `dir` for the epxorted Prometheues metrics will be overw
 <TabItem value="bash" label="Prometheus output">
 ```
 ```bash
-cloudmon_backup_file_age_aim_seconds{dir="./backups",disk="_samples/1.postgres-dumps",file="dump-%Y%M%D.sql"}
+backmon_backup_file_age_aim_seconds{dir="./backups",disk="_samples/1.postgres-dumps",file="dump-%Y%M%D.sql"}
 ```
 ```mdx-code-block
 </TabItem>
@@ -172,7 +172,7 @@ cloudmon_backup_file_age_aim_seconds{dir="./backups",disk="_samples/1.postgres-d
 <TabItem value="bash" label="Prometheus output">
 ```
 ```bash
-cloudmon_backup_file_age_aim_seconds{dir="custom_backups",disk="_samples/1.postgres-dumps",file="dump-%Y%M%D.sql"}
+backmon_backup_file_age_aim_seconds{dir="custom_backups",disk="_samples/1.postgres-dumps",file="dump-%Y%M%D.sql"}
 ```
 ```mdx-code-block
 </TabItem>
@@ -299,7 +299,7 @@ If specified, the label `file` for the epxorted Prometheues metrics will be over
 <TabItem value="bash" label="Prometheus output">
 ```
 ```bash
-cloudmon_backup_file_age_aim_seconds{dir="./backups",disk="_samples/1.postgres-dumps",file="dump-%Y%M%D.sql"}
+backmon_backup_file_age_aim_seconds{dir="./backups",disk="_samples/1.postgres-dumps",file="dump-%Y%M%D.sql"}
 ```
 ```mdx-code-block
 </TabItem>
@@ -322,7 +322,7 @@ cloudmon_backup_file_age_aim_seconds{dir="./backups",disk="_samples/1.postgres-d
 <TabItem value="bash" label="Prometheus output">
 ```
 ```bash
-cloudmon_backup_file_age_aim_seconds{dir="./backups",disk="_samples/1.postgres-dumps",file="pg-dump"}
+backmon_backup_file_age_aim_seconds{dir="./backups",disk="_samples/1.postgres-dumps",file="pg-dump"}
 ```
 ```mdx-code-block
 </TabItem>

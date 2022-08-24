@@ -7,4 +7,4 @@ environments:
     path: /data/backup/mysql
 ```
 
-*cloudmon* tries to read the `backup_definitions.yaml` from the location `/data/backup/mysql/backup_definitions.yaml`.
+*backmon* tries to read the `backup_definitions.yaml` from the location `/data/backup/mysql/backup_definitions.yaml`.

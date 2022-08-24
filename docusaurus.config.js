@@ -6,10 +6,10 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'cloudmon',
-  tagline: 'Monitoring of backups in S3 buckets',
+  title: 'backmon',
+  tagline: 'Monitoring of backup files in filesystems and object storages',
   url: 'https://dreitier.github.io',
-  baseUrl: '/cloudmon-docs/',
+  baseUrl: '/backmon-docs/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
@@ -17,7 +17,7 @@ const config = {
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
   organizationName: 'dreitier', // Usually your GitHub org/user name.
-  projectName: 'cloudmon', // Usually your repo name.
+  projectName: 'backmon', // Usually your repo name.
 
   // Even if you don't use internalization, you can use this field to set useful
   // metadata like html lang. For example, if your site is Chinese, you may want
@@ -38,7 +38,7 @@ const config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.com/dreitier/cloudmon-docs/tree/main/docs/',
+            'https://github.com/dreitier/backmon-docs/tree/main/docs/',
         },
         blog: false,
         theme: {
@@ -52,7 +52,7 @@ const config = {
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       navbar: {
-        title: 'Cloudmon',
+        title: 'backmon',
         items: [
           {
             type: 'doc',
@@ -61,7 +61,7 @@ const config = {
             label: 'Documentation',
           },
           {
-            href: 'https://github.com/dreitier/cloudmon',
+            href: 'https://github.com/dreitier/backmon',
             label: 'GitHub',
             position: 'right',
           },

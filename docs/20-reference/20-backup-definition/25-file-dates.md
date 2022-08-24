@@ -1,7 +1,7 @@
 # File dates
 
 For normal file systems different attributes like `*mtime*, *ctime* and *atime* exists to record the times of changes to files. Those values might change if and when files are copied to other locations like remote filesystems or object storages.
-Because of this, *cloudmon* internally uses 4 different types of timestamps:
+Because of this, *backmon* internally uses 4 different types of timestamps:
 
 | Timestamp | Meaning | Default for files in local storage | Default for files in S3 |
 | --- | --- | --- | --- |
@@ -13,7 +13,7 @@ Because of this, *cloudmon* internally uses 4 different types of timestamps:
 As you can see in the *Default for...* columns, by default they point all to the same value. To overwrite those timestamps with your own values, you can use [`.stat files`](#stat--dotstat-files).
 
 ## `interpolated_timestamp`
-The `interpolated_timestamp` is calculated by *cloudmon* during the file discovery phase. If you have defined a file pattern for your backups which contains date formats like `%Y` or `%d`, those values will be applied. For missing parts of the date, the timestamp of the selected `.sort` algorithm is used as reference date.
+The `interpolated_timestamp` is calculated by *backmon* during the file discovery phase. If you have defined a file pattern for your backups which contains date formats like `%Y` or `%d`, those values will be applied. For missing parts of the date, the timestamp of the selected `.sort` algorithm is used as reference date.
 In case that `.sort` has not been set or has been set to `interpolation`, a fallback to the `modified_at` timestamp happens.
 
 ## .stat / dotstat files
@@ -21,7 +21,7 @@ You can override a file's timestamp by using a `.stat` file The .stat file has t
 If your backup file is named `20220719-postgres.tar.gz`, you must name your `.stat` file `20220719-postgres.tar.gz.stat`.
 
 ### Format of .stat files
-`.stat` files have a simple YAML format. *cloudmon* recognizes the following keys which corresponds to *cloudmon*'s timestamp types:
+`.stat` files have a simple YAML format. *backmon* recognizes the following keys which corresponds to *backmon*'s timestamp types:
 
 | Key | Default | Required |
 | --- | --- | --- |

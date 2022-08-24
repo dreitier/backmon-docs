@@ -1,19 +1,19 @@
 # Overview
-*cloudmon*'s binary must run either on a bare-metal host or inside a Docker container.
+*backmon*'s binary must run either on a bare-metal host or inside a Docker container.
 It then can be configure through a configuration file. 
 In it, you specify which disks, local filesystem paths or S3 buckets, have to be monitored.
 
-*cloudmon* inspects each of the configured disks. If a [backup definition](../20-backup-definition/10-overview.md) is found in a disk, its [backup definition](../20-backup-definition/10-overview.md) is applied.
+*backmon* inspects each of the configured disks. If a [backup definition](../20-backup-definition/10-overview.md) is found in a disk, its [backup definition](../20-backup-definition/10-overview.md) is applied.
 
-*cloudmon* tries to locate the configuration file `config.yaml` in the following directories, priority in the defined order:
+*backmon* tries to locate the configuration file `config.yaml` in the following directories, priority in the defined order:
 
 - local directory: `./config.yaml`
-- `${HOME}/.cloudmon/config.yaml`
-- `/etc/cloudmon/config.yaml`
+- `${HOME}/.backmon/config.yaml`
+- `/etc/backmon/config.yaml`
 
-In the configuration file, you can use environment placeholders like `${VAR}`. Those placeholders will be replaced during the startup of *cloudmon* with the corresponding environment variables. You have to place the configuration file at `/etc/cloudmon/config-raw.yaml`.
+In the configuration file, you can use environment placeholders like `${VAR}`. Those placeholders will be replaced during the startup of *backmon* with the corresponding environment variables. You have to place the configuration file at `/etc/backmon/config-raw.yaml`.
 
-## Command line options for *cloudmon*
+## Command line options for *backmon*
 
 | Option | Default | Description |
 | --- | --- | --- |
@@ -65,7 +65,7 @@ environments:
 | `disks.exclude` | `<empty>` (*list of strings*) | No |  Only include the disks with the given name; case-sensitive; regular expressions are supported. | 
 | `disks.all_others` | `include` (*one of `include`, `exclude`*) | No | Behaviour for disks which are not explicitly included or excluded. |
 | `log_level` | `<empty>` (*one of `debug`, `info`*) | No |  Used log level; will be overwritten if `--debug` is used. | 
-| `downloads.enabled` | `false` | No | If `true`, the latest artifact of a monitored backup disk can be downloaded. This is disabled by default for security reasons ([#1](https://github.com/dreitier/cloudmon/issues/1)).|
+| `downloads.enabled` | `false` | No | If `true`, the latest artifact of a monitored backup disk can be downloaded. This is disabled by default for security reasons ([#1](https://github.com/dreitier/backmon/issues/1)).|
 | `http.basic_auth.username` | `<empty>` (*string*) | No | Username for HTTP Basic Authentication. If this is set, `http.basic_auth.password` must be also set. |
 | `http.basic_auth.password` | `<empty>` (*string*) | No | Password for HTTP Basic Authentication. If this is set, `http.basic_auth.username` must be also set. |
 | `http.tls.certificate` | `<empty>` (*string*) | No | Path to certificate file. If this is set, `http.tls.key` must be also set. |
@@ -90,7 +90,7 @@ The `disks` section allows you to include or exclude disks which have been found
 - A disk is excluded if it is defined in `disks.exclude` or one of those regular expressions matches
 - If a disk is defined in `disks.include` __and__ `disks.exclude`, the behaviour of `disks.all_others` is applied (`include` by default)
 - If a disk is not explicitly defined in `disks.include` or `disks.exclude`, the behaviour of `disks.all_others` is applied (`include` by default)
-- If a disk contains a [`.cloudmonignore`](storage#ignoring-disks) marker file of the root of the disk, the disk is excluded - no matter of any `disks.*` configurations.
+- If a disk contains a [`.backmonignore`](storage#ignoring-disks) marker file of the root of the disk, the disk is excluded - no matter of any `disks.*` configurations.
 
 To use a regular expression in `disks.include` or `disks.exclude`, you have to put a slash (`/`) before and after the regular expression:
 
