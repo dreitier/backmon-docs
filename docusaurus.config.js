@@ -89,7 +89,8 @@ const config = {
         darkTheme: darkCodeTheme,
       },
 	  metadata: [
-	    {name: 'google-site-verification', content: 'iff1yw0ykLoAP7Z_BKK-S4XDRckQps3kLvK0byz-5WE'}
+	    {name: 'google-site-verification', content: 'iff1yw0ykLoAP7Z_BKK-S4XDRckQps3kLvK0byz-5WE'},
+	    {name: 'msvalidate.01', content: 'FF94065F279E18FFAB402CDF11131567'},
 	  ],
     }),
 };
