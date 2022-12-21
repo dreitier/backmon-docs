@@ -8,8 +8,8 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 const config = {
   title: 'backmon',
   tagline: 'Monitoring of backup files in filesystems and object storages',
-  url: 'https://dreitier.github.io',
-  baseUrl: '/backmon-docs/',
+  url: 'https://backmon.dreitier.com',
+  baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
