@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkbackmon_docs=self.webpackChunkbackmon_docs||[]).push([[525],{7344:e=>{e.exports=JSON.parse('{"title":"Reference","slug":"/category/reference","permalink":"/category/reference","navigation":{"previous":{"title":"Terminology","permalink":"/terminology"},"next":{"title":"Configuration","permalink":"/category/configuration"}}}')}}]);
