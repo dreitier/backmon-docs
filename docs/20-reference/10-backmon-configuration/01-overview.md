@@ -24,6 +24,8 @@ In the configuration file, you can use environment placeholders like `${VAR}`. T
 ```yaml
 
 port: 8080
+# for update_interval use `time.ParseDuration` format from https://pkg.go.dev/time#example-ParseDuration
+# e.g. 1m, 1h, 86400s etc
 update_interval: 1m
 downloads:
   enabled: true
@@ -60,7 +62,7 @@ environments:
 | Key | Default | Required | Description |
 | --- | --- | --- | --- |
 | `port` | `80` (*int*) | No | Default HTTP port to listen for requests. TLS is not supported at the moment. Consider using a proxy if you need encryption. |
-| `update_interval` | `1h` (*duration*) | No |  Checks each disk in that duration interval. |
+| `update_interval` | `1h` (*duration*) | No |  Checks each disk in that duration interval. [time.ParseDuration format](https://pkg.go.dev/time#example-ParseDuration) must be used. |
 | `disks.include` | `<empty>` (*list of strings*) | No |  Only include the disks with the given name; case-sensitive; regular expressions are supported. | 
 | `disks.exclude` | `<empty>` (*list of strings*) | No |  Only include the disks with the given name; case-sensitive; regular expressions are supported. | 
 | `disks.all_others` | `include` (*one of `include`, `exclude`*) | No | Behaviour for disks which are not explicitly included or excluded. |
