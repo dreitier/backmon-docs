@@ -28,15 +28,19 @@ You can overwrite the file naming in the [backmon configuration file](../10-back
     sort: born_at
     # purge old files which are older than 7 days and keep at least 10 backups
     purge: true
-    retention-count: 10
-    retention-age: 7d
+
+    # @see https://github.com/dreitier/backmon/issues/19
+    # retention-count: 10
+    # retention-age: 7d
   # inside the ./databases folder there are multiple files like `postgres-20220713.gz`
   files:
     'postgres-%Y%M%D.gz':
       # File alias for Prometheus	
       alias: PostgeSQL
-	  # This backup is generated at 01:00 each night
+      # This backup is generated at 01:00 each night
       schedule: 0 1 * * *
+      retention-count: 10
+      retention-age: 7d
     '%Y%M%D_mysql_%I.gz':
       alias: MySQL
 ```
@@ -48,7 +52,7 @@ You can overwrite the file naming in the [backmon configuration file](../10-back
 | `[$directory]` | `<empty>` (*string*) | __Yes__ | Directory name inside the disk, relative to the `backup_definitions.yaml`. |
 | `[$directory].alias` | `<name of directory>` (*string*) | No | Used alias when exporting metrics. |
 | `[$directory].fuse[]` | `<empty>` (*list of wildcard strings*) | No | Group files together by that substitutions. |
-| `[$directory].defaults.*` | `<empty>` (*any of .schedule, .sort, .purge, .retention-count, .retention-age*) | No | Apply those defaults for each `[$directory].files[$file]` section. Each `[$directory].files[$file].*` key can override this default |
+| `[$directory].defaults.*` | `<empty>` (*any of .schedule, .sort, .purge*) | No | Apply those defaults for each `[$directory].files[$file]` section. Each `[$directory].files[$file].*` key can override this default.  <p />(`.retention-count`, `.retention-age`) are not available, see [#19](https://github.com/dreitier/backmon/issues/19). |
 | `[$directory].files[$file]` | `<empty>` (*map*) | __Yes__ | File pattern to check for.|
 | `[$directory].files[$file].schedule` | `<empty>` (*valid cron definition*) | No | Cron definition to check for files |
 | `[$directory].files[$file].sort` | `interpolation` (*one of `born_at`, `modified_at`, `archived_at` or `interpolation`*) | No | Used data to sort the files. The selected method uses the given field to sort the files and find the latest/newest one. In case of `interpolation`, the variable substitution is applied |
@@ -221,11 +225,14 @@ With `.defaults` you can apply the configuration keys
 - `.schedule`
 - `.sort`
 - `.purge`
-- `.retention-count`
-- `.retention-age`
 
 as defaults for each `[$directory].files[$file].*` section. You can can override the default key value in each `[$directory].files[$file]` section.
 
+The two settings
+- `.retention-count`
+- `.retention-age`
+
+are **not** available, see [#19](https://github.com/dreitier/backmon/issues/19).
 ### `[$directory].files[$file]`
 Each `[$directory].files[$file]` key supports so called [substitutions](substitutions). They are basically simplified regular expressions. Some of those substitutions like '%Y' and '%M' are used to update the file's `interpolated_timestamp'.
 
