@@ -17,6 +17,6 @@ Substitute | Captures | Populated variable | Part of `interpolated_timestamp` | 
 `%w` | Alphanumeric characters and underscore | *none* | *none* | `[_0-9A-Za-z]+`
 `%X` | Sequence of hexadecimal digits | *none* | *none* | `[0-9A-F]+`
 `%v` | Anything a pattern variable would capture | *none* | *none* | `[^\\./]+`
-`%?` | Any sequence of characters | *none* | *none* | `.+`
+`%A` | Any sequence of characters | *none* | *none* | `.+`
 `%%` | Percent symbol | *none* | *none* | `%`
 `%#` | Hash/Pound symbol | *none* | *none* | `#`
