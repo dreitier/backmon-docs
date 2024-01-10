@@ -1,7 +1,7 @@
 # Overview
 
 *backmon*'s binary must run either on a bare-metal host or inside a Docker container.
-It then can be configure through a configuration file.
+It then can be configured through a configuration file.
 In it, you specify which disks, local filesystem paths or S3 buckets, have to be monitored.
 
 *backmon* inspects each of the configured disks. If a [backup definition](../20-backup-definition/10-overview.md) is
@@ -44,21 +44,27 @@ http:
     key: server.rsa.key
     strict: true
 
-disks:
-  include:
-    - my-bucket-1
-  exclude:
-    - my-secret-bucket-2
-    - "/regular_ex.*ssions_are_supported/"
-  all_others: exclude
-
 environments:
   env_1:
     path: /my/backups
+    disks:
+      include:
+        - my-bucket-1
+      exclude:
+        - my-secret-bucket-2
+        - "/regular_ex.*ssions_are_supported/"
+      all_others: exclude
   env_2:
     access_key_id: my_access_key_id
     secret_access_key: my_secret_access_key
     auto_discover_disks: true
+    disks:
+      include:
+        - my-bucket-1
+      exclude:
+        - my-secret-bucket-2
+        - "/regular_ex.*ssions_are_supported/"
+      all_others: exclude
 
 ```
 
