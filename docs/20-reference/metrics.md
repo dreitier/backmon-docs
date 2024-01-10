@@ -34,10 +34,10 @@ A `0` means that *backmon* successfully connected to the bucket, retrieved the [
 If there is an issue with the bucket, the reported status will be an error code.
 Such an error code will always be an integer > `0` from the following list:
 
-Status | Meaning
---: | :--
-`0` | OK
-`1` | Unknown error
+| Status | Meaning       |
+|-------:|:--------------|
+|    `0` | OK            |
+|    `1` | Unknown error |
 
 > **TBD**: error codes
 
@@ -88,21 +88,21 @@ through a [.stat file](backup-definition/file-dates#stat--dotstat-files). If you
 ## Labels
 The following table shows which labels are defined for each metric.
 
-Metric | disk | dir | file | group |
-:----- | :----: | :-: | :--: | :---: |
-`backmon_backup_status` | ✓ | - | - | - |
-`backmon_backup_file_count_aim` | ✓ | ✓ | ✓ | - |
-`backmon_backup_file_count` | ✓ | ✓ | ✓ | ✓ |
-`backmon_backup_file_age_aim_seconds` | ✓ | ✓ | ✓ | - |
-`backmon_backup_file_young_count` | ✓ | ✓ | ✓ | ✓ |
-`backmon_backup_latest_creation_aim_seconds` | ✓ | ✓ | ✓ | - |
-`backmon_backup_latest_creation_seconds` | ✓ | ✓ | ✓ | ✓ |
-`backmon_backup_latest_creation_duration` | ✓ | ✓ | ✓ | ✓ |
-`backmon_backup_latest_file_born_at` | ✓ | ✓ | ✓ | ✓ |
-`backmon_backup_latest_file_modified_at` | ✓ | ✓ | ✓ | ✓ |
-`backmon_backup_latest_file_archived_at` | ✓ | ✓ | ✓ | ✓ |
-`backmon_backup_latest_creation_seconds` | ✓ | ✓ | ✓ | ✓ |
-`backmon_backup_latest_size_bytes` | ✓ | ✓ | ✓ | ✓ |
+| Metric                                       | disk | dir | file | group |
+|:---------------------------------------------|:----:|:---:|:----:|:-----:|
+| `backmon_backup_status`                      |  ✓   |  -  |  -   |   -   |
+| `backmon_backup_file_count_aim`              |  ✓   |  ✓  |  ✓   |   -   |
+| `backmon_backup_file_count`                  |  ✓   |  ✓  |  ✓   |   ✓   |
+| `backmon_backup_file_age_aim_seconds`        |  ✓   |  ✓  |  ✓   |   -   |
+| `backmon_backup_file_young_count`            |  ✓   |  ✓  |  ✓   |   ✓   |
+| `backmon_backup_latest_creation_aim_seconds` |  ✓   |  ✓  |  ✓   |   -   |
+| `backmon_backup_latest_creation_seconds`     |  ✓   |  ✓  |  ✓   |   ✓   |
+| `backmon_backup_latest_creation_duration`    |  ✓   |  ✓  |  ✓   |   ✓   |
+| `backmon_backup_latest_file_born_at`         |  ✓   |  ✓  |  ✓   |   ✓   |
+| `backmon_backup_latest_file_modified_at`     |  ✓   |  ✓  |  ✓   |   ✓   |
+| `backmon_backup_latest_file_archived_at`     |  ✓   |  ✓  |  ✓   |   ✓   |
+| `backmon_backup_latest_creation_seconds`     |  ✓   |  ✓  |  ✓   |   ✓   |
+| `backmon_backup_latest_size_bytes`           |  ✓   |  ✓  |  ✓   |   ✓   |
 
 ## Sample output from the `/api/metrics` endpoint
 
