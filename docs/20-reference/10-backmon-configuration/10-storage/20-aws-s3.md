@@ -43,7 +43,7 @@ content:
 By default, *backmon* scans all S3 buckets which belong to the user's AWS account. This requires the `ListAllMyBuckets`
 permission:
 
-```yaml
+```json
 {
   "Version": "2012-10-17",
   "Statement": [
