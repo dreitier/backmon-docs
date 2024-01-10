@@ -133,7 +133,7 @@ Variables can be referenced later on in a *file* pattern with help of `${variabl
 
 #### Pattern substitutions
 
-See [Substitutions](substitutions).
+See  [substituions](substitutions).
 
 ### `[$directory].alias`
 If specified, the label `dir` for the epxorted Prometheues metrics will be overwritten with the given alias.
