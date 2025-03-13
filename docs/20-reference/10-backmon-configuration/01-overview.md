@@ -55,9 +55,10 @@ environments:
         - "/regular_ex.*ssions_are_supported/"
       all_others: exclude
   env_2:
-    access_key_id: my_access_key_id
-    secret_access_key: my_secret_access_key
-    auto_discover_disks: true
+    s3:
+      access_key_id: my_access_key_id
+      secret_access_key: my_secret_access_key
+      auto_discover_disks: true
     disks:
       include:
         - my-bucket-1
@@ -70,31 +71,33 @@ environments:
 
 ## Available configuration keys
 
-| Key                                      | Default                                   | Required | Description                                                                                                                                                                         |
-|------------------------------------------|-------------------------------------------|----------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `port`                                   | `80` (*int*)                              | No       | Default HTTP port to listen for requests. TLS is not supported at the moment. Consider using a proxy if you need encryption.                                                        |
-| `update_interval`                        | `1h` (*duration*)                         | No       | Checks each disk in that duration interval. [time.ParseDuration format](https://pkg.go.dev/time#example-ParseDuration) must be used.                                                |
-| `log_level`                              | `<empty>` (*one of `debug`, `info`*)      | No       | Used log level; will be overwritten if `--debug` is used.                                                                                                                           | 
-| `downloads.enabled`                      | `false`                                   | No       | If `true`, the latest artifact of a monitored backup disk can be downloaded. This is disabled by default for security reasons ([#1](https://github.com/dreitier/backmon/issues/1)). |
-| `http.basic_auth.username`               | `<empty>` (*string*)                      | No       | Username for HTTP Basic Authentication. If this is set, `http.basic_auth.password` must be also set.                                                                                |
-| `http.basic_auth.password`               | `<empty>` (*string*)                      | No       | Password for HTTP Basic Authentication. If this is set, `http.basic_auth.username` must be also set.                                                                                |
-| `http.tls.certificate`                   | `<empty>` (*string*)                      | No       | Path to certificate file. If this is set, `http.tls.key` must be also set.                                                                                                          |
-| `http.tls.key`                           | `<empty>` (*string*)                      | No       | Path to private key file. If this is set, `http.tls.certificate` must be also set.                                                                                                  |
-| `http.tls.strict`                        | `false` (*bool*)                          | No       | If set to true, a preferred TLS default configuration is used.                                                                                                                      |
-| `environments`                           | `<empty>` (*list of environment*)         | No       | Each `environment` to check.                                                                                                                                                        |
-| `environments[]`                         | `<empty>` (*string*)                      | __Yes__  | Name of environment.                                                                                                                                                                |
-| `environments[$env].definitions`         | `backup_definitions.yaml` (*string*)      | No       | YAML file containing the backup definitions.                                                                                                                                        |
-| `environments[$env].path`                | `<empty>` (*string*)                      | No       | Local path to check for. If you use the `path` parameter, other parameters specific for S3 are ignored.                                                                             |
-| `environments[$env].region`              | `eu-central-1` (*string*)                 | No       | AWS region                                                                                                                                                                          |
-| `environments[$env].force_path_style`    | `false` (*bool*)                          | No       | Use path-style for that S3 bucket. This is deprecated by AWS S3 and should be probably `false`.                                                                                     |
-| `environments[$env].access_key_id`       | `<empty>` (*string*)                      | __Yes__  | AWS Access Key                                                                                                                                                                      |
-| `environments[$env].secret_access_key`   | `<empty>` (*string*)                      | __Yes__  | AWS Secret Access Key                                                                                                                                                               |
-| `environments[$env].endpoint`            | `<empty>` (*string*)                      | No       | Custom AWS S3 endpoint. This must be used for Minio buckets or if you are using a local S3 instance.                                                                                |
-| `environments[$env].token`               | `<empty>` (*string*)                      | No       | AWS STS session token. You can leave that empty.                                                                                                                                    |
-| `environments[$env].auto_discover_disks` | `true` (*bool*)                           | No       | Automatically iterate over each S3 bucket.                                                                                                                                          |
-| `environments[$env].disks.include`       | `<empty>` (*list of strings*)             | No       | Only include the disks with the given name; case-sensitive; regular expressions are supported.                                                                                      | 
-| `environments[$env].disks.exclude`       | `<empty>` (*list of strings*)             | No       | Only include the disks with the given name; case-sensitive; regular expressions are supported.                                                                                      | 
-| `environments[$env].disks.all_others`    | `include` (*one of `include`, `exclude`*) | No       | Behaviour for disks which are not explicitly included or excluded.                                                                                                                  |
+| Key                                         | Default                                   | Required | Description                                                                                                                                                                         |
+|---------------------------------------------|-------------------------------------------|----------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `port`                                      | `80` (*int*)                              | No       | Default HTTP port to listen for requests. TLS is not supported at the moment. Consider using a proxy if you need encryption.                                                        |
+| `update_interval`                           | `1h` (*duration*)                         | No       | Checks each disk in that duration interval. [time.ParseDuration format](https://pkg.go.dev/time#example-ParseDuration) must be used.                                                |
+| `log_level`                                 | `<empty>` (*one of `debug`, `info`*)      | No       | Used log level; will be overwritten if `--debug` is used.                                                                                                                           | 
+| `downloads.enabled`                         | `false`                                   | No       | If `true`, the latest artifact of a monitored backup disk can be downloaded. This is disabled by default for security reasons ([#1](https://github.com/dreitier/backmon/issues/1)). |
+| `http.basic_auth.username`                  | `<empty>` (*string*)                      | No       | Username for HTTP Basic Authentication. If this is set, `http.basic_auth.password` must be also set.                                                                                |
+| `http.basic_auth.password`                  | `<empty>` (*string*)                      | No       | Password for HTTP Basic Authentication. If this is set, `http.basic_auth.username` must be also set.                                                                                |
+| `http.tls.certificate`                      | `<empty>` (*string*)                      | No       | Path to certificate file. If this is set, `http.tls.key` must be also set.                                                                                                          |
+| `http.tls.key`                              | `<empty>` (*string*)                      | No       | Path to private key file. If this is set, `http.tls.certificate` must be also set.                                                                                                  |
+| `http.tls.strict`                           | `false` (*bool*)                          | No       | If set to true, a preferred TLS default configuration is used.                                                                                                                      |
+| `environments`                              | `<empty>` (*list of environment*)         | No       | Each `environment` to check.                                                                                                                                                        |
+| `environments[]`                            | `<empty>` (*string*)                      | __Yes__  | Name of environment.                                                                                                                                                                |
+| `environments[$env].definitions`            | `backup_definitions.yaml` (*string*)      | No       | YAML file containing the backup definitions.                                                                                                                                        |
+| `environments[$env].path`                   | `<empty>` (*string*)                      | No       | Local path to check for. If you use the `path` parameter, other parameters specific for S3 are ignored.                                                                             |
+| `environments[$env].s3.region`              | `eu-central-1` (*string*)                 | No       | AWS region                                                                                                                                                                          |
+| `environments[$env].s3.access_key_id`       | `<empty>` (*string*)                      | __Yes__  | AWS Access Key                                                                                                                                                                      |
+| `environments[$env].s3.secret_access_key`   | `<empty>` (*string*)                      | __Yes__  | AWS Secret Access Key                                                                                                                                                               |
+| `environments[$env].s3.endpoint`            | `<empty>` (*string*)                      | No       | Custom AWS S3 endpoint. This must be used for Minio buckets or if you are using a local S3 instance.                                                                                |
+| `environments[$env].s3.force_path_style`    | `false` (*bool*)                          | No       | Use path-style for that S3 bucket. This is deprecated by AWS S3 and should be probably `false`.                                                                                     |
+| `environments[$env].s3.insecure`            | `false` (*bool*)                          | No       | Whether to use HTTP or HTTPS to access the S3 endpoint. This is intended primarily for accessing a local S3 endpoint like MinIO.                                                    |
+| `environments[$env].s3.tls_skip_verify`     | `false` (*bool*)                          | No       | Whether to verify the X.509 certificated presented by the S3 endpoint. This is intended primarily for accessing a local S3 endpoint which uses a self signed certificate            |
+| `environments[$env].s3.token`               | `<empty>` (*string*)                      | No       | AWS STS session token. You can leave that empty.                                                                                                                                    |
+| `environments[$env].s3.auto_discover_disks` | `true` (*bool*)                           | No       | Automatically iterate over each S3 bucket.                                                                                                                                          |
+| `environments[$env].disks.include`          | `<empty>` (*list of strings*)             | No       | Only include the disks with the given name; case-sensitive; regular expressions are supported.                                                                                      | 
+| `environments[$env].disks.exclude`          | `<empty>` (*list of strings*)             | No       | Only include the disks with the given name; case-sensitive; regular expressions are supported.                                                                                      | 
+| `environments[$env].disks.all_others`       | `include` (*one of `include`, `exclude`*) | No       | Behaviour for disks which are not explicitly included or excluded.                                                                                                                  |
 
 ## `disks`
 
@@ -121,6 +124,6 @@ disks:
 ```
 
 :::info
-If you have set `environments[$env].auto_discover_disks` to `false`, only the `disks.include` configuration parameter
+If you have set `environments[$env].s3.auto_discover_disks` to `false`, only the `disks.include` configuration parameter
 makes any sense.
 :::
