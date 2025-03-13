@@ -2,95 +2,123 @@
 
 One of the main tasks of *backmon* is to gather and export metrics.
 Here you will find descriptions of:
+
 - the [metric gathering process](#metric-data-collection)
 - the [Prometheus endpoint](#prometheus-endpoint), and
 - the [exported metrics](#available-metrics)
 
 ## Metric Data Collection
 
-
-
 ## Prometheus Endpoint
+
 Metrics are offered through a configurable Prometheus endpoint.
 The prometheus endpoint is reachable on the *backmon* host under the `/metrics` path.
 
-
 ## Available Metrics
-All of the metrics offered by *backmon* begin with the prefix `backmon_backup_`. 
-The metrics are listed under their full names here, but other parts of the documentation may omit this prefix for the sake of brevity.
+
+All of the metrics offered by *backmon* begin with the prefix `backmon_backup_`.
+The metrics are listed under their full names here, but other parts of the documentation may omit this prefix for the
+sake of brevity.
 
 ### `backmon_environments_total`
+
 Total number of environments, configured in the `config.yaml`.
 
 ### `backmon_disks_total`
+
 Total number of discovered disks. This includes also the number of inactive disks, e.g. if permissions are missing.
 
-### `backmon_backup_status`
-This is a special metric that reports on the status of a bucket.
+### `backmon_definition_status`
 
-When there are no issues with the bucket, the reported status will be `0`.
-A `0` means that *backmon* successfully connected to the bucket, retrieved the [*backup-definition*](20-backup-definition/10-overview.md) file, and parsed it.
+This is a special metric that reports on the status of a definitions file.
 
-If there is an issue with the bucket, the reported status will be an error code.
-Such an error code will always be an integer > `0` from the following list:
+When the definitions file could be accessed and parsed correctly, the reported status will be `1`.
+A `1` means that *backmon* successfully connected to the bucket/disk, retrieved the [
+*backup-definition*](20-backup-definition/10-overview.md) file, and parsed it.
+
+If there is an issue with the bucket, the reported status will be an error code from the following list:
 
 | Status | Meaning       |
 |-------:|:--------------|
-|    `0` | OK            |
-|    `1` | Unknown error |
+|    `0` | Unknown error |
+|    `1` | OK            |
 
-> **TBD**: error codes
 
-### `backmon_backup_file_count_aim`
+### `backmon_file_count_total`
+
+Reports the total number of files in a bucket regardless of whether they are part of a backup definition or not.
+
+### `backmon_disk_usage_bytes`
+
+Reports the total amount of storage used by all files in a bucket regardless of whether they are part of a backup definition or not.
+
+### `backmon_backup_file_count_max`
+
 Reports the desired file count, as specified by the `retention-count` setting in the *backup_definitions.yaml*.
 
 ### `backmon_backup_file_count`
+
 Reports the actual file count.
 
 When purging is enabled, this count will usually be equal to the [target](#backmon_backup_file_count_aim).
 
 ### `backmon_backup_file_age_aim_seconds`
-This is equal to the converted `retention-age` parameter in seconds from the [`backup_definitions.yaml`](backup-definition/overview)
+
+This is equal to the converted `retention-age` parameter in seconds from the [
+`backup_definitions.yaml`](backup-definition/overview)
 
 ### `backmon_backup_file_young_count`
+
 The amount of backup files in this group that are younger than the maximum age (`file_age_aim_seconds`).
 
-### `backmon_backup_latest_creation_aim_seconds`
+### `backmon_backup_file_creation_expected_at`
+
 Unix timestamp on which the latest backup in the corresponding file group should have occurred.
 
-### `backmon_backup_latest_creation_seconds`
+### `backmon_backup_latest_file_created_at`
+
 Unix timestamp on which the latest backup in the corresponding file group was created.
 This is basically the value which comes from the variable interpolation of the file.
 
 ### `backmon_backup_latest_file_creation_duration`
-Describes how long it took to create the backup file in seconds. This is 0 if born_at and modified_at have the same value.
+
+Describes how long it took to create the backup file in seconds. This is 0 if born_at and modified_at have the same
+value.
 
 ### `backmon_backup_latest_file_born_at`
+
 Unix timestamp on which the latest file has been initially created. See [.stat files](backup-definition/file-dates).
 
 ### `backmon_backup_latest_file_modified_at`
+
 Unix timestamp on which the latest file has been modified. See [.stat files](backup-definition/file-dates).
 
 ### `backmon_backup_latest_file_archived_at`
+
 Unix timestamp on which the latest file has been archived. See [.stat files](backup-definition/file-dates).
 
 ### `backmon_backup_latest_size_bytes`
+
 Size (in bytes) of the latest backup in the corresponding file group.
 
 ## A note about `backmon_backup_latest_file_*_at`
-Due to [file system limitations](backup-definition/file-dates) section, you have to provide the values for 
+
+Due to [file system limitations](backup-definition/file-dates) section, you have to provide the values for
+
 - `backmon_backup_latest_file_born_at`
 - `backmon_backup_latest_file_modified_at`
 - `backmon_backup_latest_file_archived_at`
 
-through a [.stat file](backup-definition/file-dates#stat--dotstat-files). If you do not that, each of the metrics will have the same value/timestamp.
+through a [.stat file](backup-definition/file-dates#stat--dotstat-files). If you do not that, each of the metrics will
+have the same value/timestamp.
 
 ## Labels
+
 The following table shows which labels are defined for each metric.
 
 | Metric                                       | disk | dir | file | group |
 |:---------------------------------------------|:----:|:---:|:----:|:-----:|
-| `backmon_backup_status`                      |  ✓   |  -  |  -   |   -   |
+| `backmon_definition_status`                  |  ✓   |  -  |  -   |   -   |
 | `backmon_backup_file_count_aim`              |  ✓   |  ✓  |  ✓   |   -   |
 | `backmon_backup_file_count`                  |  ✓   |  ✓  |  ✓   |   ✓   |
 | `backmon_backup_file_age_aim_seconds`        |  ✓   |  ✓  |  ✓   |   -   |
@@ -146,7 +174,7 @@ backmon_backup_latest_file_modified_at{dir="postgres",disk="samples/1.postgres-d
 # HELP backmon_backup_latest_size_bytes Size (in bytes) of the latest backup in the corresponding file group.
 # TYPE backmon_backup_latest_size_bytes gauge
 backmon_backup_latest_size_bytes{dir="postgres",disk="samples/1.postgres-dumps",file="pgdump",group="backups"} 0
-# HELP backmon_backup_status Indicates whether there were any problems collecting metrics for this disk. Any value >0 means that errors occurred.
-# TYPE backmon_backup_status gauge
-backmon_backup_status{disk="samples/1.postgres-dumps"} 0
+# HELP backmon_definition_status Indicates whether there were any problems collecting metrics for this disk. Any value >0 means that errors occurred.
+# TYPE backmon_definition_status gauge
+backmon_definition_status{disk="samples/1.postgres-dumps"} 1
 ```
