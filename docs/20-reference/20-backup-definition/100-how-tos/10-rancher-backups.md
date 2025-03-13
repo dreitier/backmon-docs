@@ -12,13 +12,14 @@ s3-backup-b025385f-800a-4ee6-b8b6-bbf199a0e733-2022-08-04T00-00-00Z.tar.gz
 To monitor those files, create a `backup_definitions.yaml` in the S3 bucket with the following content:
 
 ```yaml
-content:
-  alias: RANCHER_CLUSTER
-  defaults:
-    schedule: 0 0 * * *
-  files:
-    "s3-backup-%w-%w-%w-%w-%w-%Y-%M-%DT%h-%m-%sZ.tar.gz":
-      alias: rancher-backups
-      retention-count: 7
-      purge: false
+directories:
+  content:
+    alias: RANCHER_CLUSTER
+    defaults:
+      schedule: 0 0 * * *
+    files:
+      "s3-backup-%w-%w-%w-%w-%w-%Y-%M-%DT%h-%m-%sZ.tar.gz":
+        alias: rancher-backups
+        retention-count: 7
+        purge: false
 ```

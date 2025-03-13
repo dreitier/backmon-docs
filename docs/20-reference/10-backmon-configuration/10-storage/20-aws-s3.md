@@ -10,6 +10,8 @@ environments:
     secret_access_key: my_secret_access_key
 ```
 
+For a full list of configuration option for the S3 provider see [`the corresponding section`](../01-overview.md#available-configuration-keys)
+
 Your AWS account contains the following S3 buckets:
 
 - `bucket-1`
