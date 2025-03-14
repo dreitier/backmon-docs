@@ -75,7 +75,7 @@ The amount of backup files in this group that are younger than the maximum age (
 
 Unix timestamp on which the latest backup in the corresponding file group should have occurred.
 
-### `backmon_backup_latest_file_created_at`
+### `backmon_backup_latest_file_created_at_timestamp_seconds`
 
 Unix timestamp on which the latest backup in the corresponding file group was created.
 This is basically the value which comes from the variable interpolation of the file.

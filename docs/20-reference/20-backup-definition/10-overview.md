@@ -177,7 +177,7 @@ directories:
 ```
 
 ```bash
-backmon_backup_latest_file_creation_expected_at{dir="./backups",disk="_samples/1.postgres-dumps",file="dump-%Y%M%D.sql"}
+backmon_backup_latest_file_creation_expected_at_timestamp_seconds{dir="./backups",disk="_samples/1.postgres-dumps",file="dump-%Y%M%D.sql"}
 ```
 
 ```mdx-code-block
@@ -206,7 +206,7 @@ directories:
 ```
 
 ```bash
-backmon_backup_latest_file_creation_expected_at{dir="custom_backups",disk="_samples/1.postgres-dumps",file="dump-%Y%M%D.sql"}
+backmon_backup_latest_file_creation_expected_at_timestamp_seconds{dir="custom_backups",disk="_samples/1.postgres-dumps",file="dump-%Y%M%D.sql"}
 ```
 
 ```mdx-code-block
@@ -370,7 +370,7 @@ directories:
 ```
 
 ```bash
-backmon_backup_latest_file_creation_expected_at{dir="./backups",disk="_samples/1.postgres-dumps",file="dump-%Y%M%D.sql"}
+backmon_backup_latest_file_creation_expected_at_timestamp_seconds{dir="./backups",disk="_samples/1.postgres-dumps",file="dump-%Y%M%D.sql"}
 ```
 
 ```mdx-code-block
@@ -399,7 +399,7 @@ directories:
 ```
 
 ```bash
-backmon_backup_latest_file_creation_expected_at{dir="./backups",disk="_samples/1.postgres-dumps",file="pg-dump"}
+backmon_backup_latest_file_creation_expected_at_timestamp_seconds{dir="./backups",disk="_samples/1.postgres-dumps",file="pg-dump"}
 ```
 
 ```mdx-code-block
