@@ -85,15 +85,15 @@ This is basically the value which comes from the variable interpolation of the f
 Describes how long it took to create the backup file in seconds. This is 0 if born_at and modified_at have the same
 value.
 
-### `backmon_backup_latest_file_born_at`
+### `backmon_backup_latest_file_born_at_timestamp_seconds`
 
 Unix timestamp on which the latest file has been initially created. See [.stat files](backup-definition/file-dates).
 
-### `backmon_backup_latest_file_modified_at`
+### `backmon_backup_latest_file_modified_at_timestamp_seconds`
 
 Unix timestamp on which the latest file has been modified. See [.stat files](backup-definition/file-dates).
 
-### `backmon_backup_latest_file_archived_at`
+### `backmon_backup_latest_file_archived_at_timestamp_seconds`
 
 Unix timestamp on which the latest file has been archived. See [.stat files](backup-definition/file-dates).
 
@@ -105,9 +105,9 @@ Size (in bytes) of the latest backup in the corresponding file group.
 
 Due to [file system limitations](backup-definition/file-dates) section, you have to provide the values for
 
-- `backmon_backup_latest_file_born_at`
-- `backmon_backup_latest_file_modified_at`
-- `backmon_backup_latest_file_archived_at`
+- `backmon_backup_latest_file_born_at_timestamp_seconds`
+- `backmon_backup_latest_file_modified_at_timestamp_seconds`
+- `backmon_backup_latest_file_archived_at_timestamp_seconds`
 
 through a [.stat file](backup-definition/file-dates#stat--dotstat-files). If you do not that, each of the metrics will
 have the same value/timestamp.
@@ -126,9 +126,9 @@ The following table shows which labels are defined for each metric.
 | `backmon_backup_latest_creation_aim_seconds` |  ✓   |  ✓  |  ✓   |   -   |
 | `backmon_backup_latest_creation_seconds`     |  ✓   |  ✓  |  ✓   |   ✓   |
 | `backmon_backup_latest_creation_duration`    |  ✓   |  ✓  |  ✓   |   ✓   |
-| `backmon_backup_latest_file_born_at`         |  ✓   |  ✓  |  ✓   |   ✓   |
-| `backmon_backup_latest_file_modified_at`     |  ✓   |  ✓  |  ✓   |   ✓   |
-| `backmon_backup_latest_file_archived_at`     |  ✓   |  ✓  |  ✓   |   ✓   |
+| `backmon_backup_latest_file_born_at_timestamp_seconds`         |  ✓   |  ✓  |  ✓   |   ✓   |
+| `backmon_backup_latest_file_modified_at_timestamp_seconds`     |  ✓   |  ✓  |  ✓   |   ✓   |
+| `backmon_backup_latest_file_archived_at_timestamp_seconds`     |  ✓   |  ✓  |  ✓   |   ✓   |
 | `backmon_backup_latest_creation_seconds`     |  ✓   |  ✓  |  ✓   |   ✓   |
 | `backmon_backup_latest_size_bytes`           |  ✓   |  ✓  |  ✓   |   ✓   |
 
@@ -159,18 +159,18 @@ backmon_backup_latest_creation_aim_seconds{dir="postgres",disk="samples/1.postgr
 # HELP backmon_backup_latest_creation_seconds Unix timestamp on which the latest backup in the corresponding file group was created.
 # TYPE backmon_backup_latest_creation_seconds gauge
 backmon_backup_latest_creation_seconds{dir="postgres",disk="samples/1.postgres-dumps",file="pgdump",group="backups"} 1.658182599e+09
-# HELP backmon_backup_latest_file_archived_at Unix timestamp on which the latest file has been archived
-# TYPE backmon_backup_latest_file_archived_at gauge
-backmon_backup_latest_file_archived_at{dir="postgres",disk="samples/1.postgres-dumps",file="pgdump",group="backups"} 1.381818188e+09
-# HELP backmon_backup_latest_file_born_at Unix timestamp on which the latest file has been initially created
-# TYPE backmon_backup_latest_file_born_at gauge
-backmon_backup_latest_file_born_at{dir="postgres",disk="samples/1.postgres-dumps",file="pgdump",group="backups"} 1.2313213e+07
+# HELP backmon_backup_latest_file_archived_at_timestamp_seconds Unix timestamp on which the latest file has been archived
+# TYPE backmon_backup_latest_file_archived_at_timestamp_seconds gauge
+backmon_backup_latest_file_archived_at_timestamp_seconds{dir="postgres",disk="samples/1.postgres-dumps",file="pgdump",group="backups"} 1.381818188e+09
+# HELP backmon_backup_latest_file_born_at_timestamp_seconds Unix timestamp on which the latest file has been initially created
+# TYPE backmon_backup_latest_file_born_at_timestamp_seconds gauge
+backmon_backup_latest_file_born_at_timestamp_seconds{dir="postgres",disk="samples/1.postgres-dumps",file="pgdump",group="backups"} 1.2313213e+07
 # HELP backmon_backup_latest_file_creation_duration Describes how long it took to create the backup file in seconds
 # TYPE backmon_backup_latest_file_creation_duration gauge
 backmon_backup_latest_file_creation_duration{dir="postgres",disk="samples/1.postgres-dumps",file="pgdump",group="backups"} 1.17626186e+08
-# HELP backmon_backup_latest_file_modified_at Unix timestamp on which the latest file has been modified
-# TYPE backmon_backup_latest_file_modified_at gauge
-backmon_backup_latest_file_modified_at{dir="postgres",disk="samples/1.postgres-dumps",file="pgdump",group="backups"} 1.29939399e+08
+# HELP backmon_backup_latest_file_modified_at_timestamp_seconds Unix timestamp on which the latest file has been modified
+# TYPE backmon_backup_latest_file_modified_at_timestamp_seconds gauge
+backmon_backup_latest_file_modified_at_timestamp_seconds{dir="postgres",disk="samples/1.postgres-dumps",file="pgdump",group="backups"} 1.29939399e+08
 # HELP backmon_backup_latest_size_bytes Size (in bytes) of the latest backup in the corresponding file group.
 # TYPE backmon_backup_latest_size_bytes gauge
 backmon_backup_latest_size_bytes{dir="postgres",disk="samples/1.postgres-dumps",file="pgdump",group="backups"} 0
