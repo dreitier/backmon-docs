@@ -5,7 +5,7 @@ We provide a [Helm chart for backmon](https://github.com/dreitier/helm-charts/).
 You can either use that repository and install the helm chart with
 
 ```bash
-$ git clone https://github.com/dreitier/helm-charts/`
+$ git clone https://github.com/dreitier/helm-charts/
 $ cd helm-charts/charts/backmon
 $ helm install backmon
 ```
