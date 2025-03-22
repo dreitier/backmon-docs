@@ -60,9 +60,9 @@ Reports the desired file count, as specified by the `retention-count` setting in
 
 Reports the actual file count.
 
-When purging is enabled, this count will usually be equal to the [target](#backmon_backup_file_count_aim).
+When purging is enabled, this count will usually be equal to the [target](#backmon_backup_file_count_max).
 
-### `backmon_backup_file_age_aim_seconds`
+### `backmon_backup_file_age_max_seconds`
 
 This is equal to the converted `retention-age` parameter in seconds from the [
 `backup_definitions.yaml`](backup-definition/overview)
@@ -116,21 +116,22 @@ have the same value/timestamp.
 
 The following table shows which labels are defined for each metric.
 
-| Metric                                       | disk | dir | file | group |
-|:---------------------------------------------|:----:|:---:|:----:|:-----:|
-| `backmon_definition_status`                  |  ✓   |  -  |  -   |   -   |
-| `backmon_backup_file_count_aim`              |  ✓   |  ✓  |  ✓   |   -   |
-| `backmon_backup_file_count`                  |  ✓   |  ✓  |  ✓   |   ✓   |
-| `backmon_backup_file_age_aim_seconds`        |  ✓   |  ✓  |  ✓   |   -   |
-| `backmon_backup_file_young_count`            |  ✓   |  ✓  |  ✓   |   ✓   |
-| `backmon_backup_latest_creation_aim_seconds` |  ✓   |  ✓  |  ✓   |   -   |
-| `backmon_backup_latest_creation_seconds`     |  ✓   |  ✓  |  ✓   |   ✓   |
-| `backmon_backup_latest_creation_duration`    |  ✓   |  ✓  |  ✓   |   ✓   |
-| `backmon_backup_latest_file_born_at_timestamp_seconds`         |  ✓   |  ✓  |  ✓   |   ✓   |
-| `backmon_backup_latest_file_modified_at_timestamp_seconds`     |  ✓   |  ✓  |  ✓   |   ✓   |
-| `backmon_backup_latest_file_archived_at_timestamp_seconds`     |  ✓   |  ✓  |  ✓   |   ✓   |
-| `backmon_backup_latest_creation_seconds`     |  ✓   |  ✓  |  ✓   |   ✓   |
-| `backmon_backup_latest_size_bytes`           |  ✓   |  ✓  |  ✓   |   ✓   |
+| Metric                                                                 | disk | dir | file | group |
+|:-----------------------------------------------------------------------|:----:|:---:|:----:|:-----:|
+| `backmon_definition_status`                                            |  ✓   |  -  |  -   |   -   |
+| `backmon_disk_usage_bytes`                                             |  ✓   |  -  |  -   |   -   |
+| `backmon_disk_quota_bytes`                                             |  ✓   |  -  |  -   |   -   |
+| `backmon_backup_file_count_max`                                        |  ✓   |  ✓  |  ✓   |   -   |
+| `backmon_backup_file_count`                                            |  ✓   |  ✓  |  ✓   |   ✓   |
+| `backmon_file_count_total`                                             |  ✓   |  ✓  |  ✓   |   ✓   |
+| `backmon_backup_file_age_max_seconds`                                  |  ✓   |  ✓  |  ✓   |   -   |
+| `backmon_backup_file_young_count`                                      |  ✓   |  ✓  |  ✓   |   ✓   |
+| `backmon_backup_latest_file_creation_expected_at_timestamp_seconds`    |  ✓   |  ✓  |  ✓   |   -   |
+| `backmon_backup_latest_file_creation_duration`                         |  ✓   |  ✓  |  ✓   |   ✓   |
+| `backmon_backup_latest_file_born_at_timestamp_seconds`                 |  ✓   |  ✓  |  ✓   |   ✓   |
+| `backmon_backup_latest_file_modified_at_timestamp_seconds`             |  ✓   |  ✓  |  ✓   |   ✓   |
+| `backmon_backup_latest_file_archived_at_timestamp_seconds`             |  ✓   |  ✓  |  ✓   |   ✓   |
+| `backmon_backup_latest_size_bytes`                                     |  ✓   |  ✓  |  ✓   |   ✓   |
 
 ## Sample output from the `/api/metrics` endpoint
 
@@ -141,24 +142,24 @@ backmon_disks_total 0
 # HELP backmon_environments_total Total number of environments
 # TYPE backmon_environments_total gauge
 backmon_environments_total 1
-# HELP backmon_backup_file_age_aim_seconds The maximum age (in seconds) that any file in this group should reach.
-# TYPE backmon_backup_file_age_aim_seconds gauge
-backmon_backup_file_age_aim_seconds{dir="postgres",disk="samples/1.postgres-dumps",file="pgdump"} 0
+# HELP backmon_backup_file_age_max_seconds The maximum age (in seconds) that any file in this group should reach.
+# TYPE backmon_backup_file_age_max_seconds gauge
+backmon_backup_file_age_max_seconds{dir="postgres",disk="samples/1.postgres-dumps",file="pgdump"} 0
 # HELP backmon_backup_file_count The amount of backup files present in this group.
 # TYPE backmon_backup_file_count gauge
 backmon_backup_file_count{dir="postgres",disk="samples/1.postgres-dumps",file="pgdump",group="backups"} 4
-# HELP backmon_backup_file_count_aim The amount of backup files expected to be present in this group.
-# TYPE backmon_backup_file_count_aim gauge
-backmon_backup_file_count_aim{dir="postgres",disk="samples/1.postgres-dumps",file="pgdump"} 0
+# HELP backmon_backup_file_count_max The amount of backup files expected to be present in this group.
+# TYPE backmon_backup_file_count_max gauge
+backmon_backup_file_count_max{dir="postgres",disk="samples/1.postgres-dumps",file="pgdump"} 0
 # HELP backmon_backup_file_young_count The amount of backup files in this group that are younger than the maximum age (file_age_aim_seconds).
 # TYPE backmon_backup_file_young_count gauge
 backmon_backup_file_young_count{dir="postgres",disk="samples/1.postgres-dumps",file="pgdump",group="backups"} 0
-# HELP backmon_backup_latest_creation_aim_seconds Unix timestamp on which the latest backup in the corresponding file group should have occurred.
-# TYPE backmon_backup_latest_creation_aim_seconds gauge
-backmon_backup_latest_creation_aim_seconds{dir="postgres",disk="samples/1.postgres-dumps",file="pgdump"} 1.6581852e+09
-# HELP backmon_backup_latest_creation_seconds Unix timestamp on which the latest backup in the corresponding file group was created.
-# TYPE backmon_backup_latest_creation_seconds gauge
-backmon_backup_latest_creation_seconds{dir="postgres",disk="samples/1.postgres-dumps",file="pgdump",group="backups"} 1.658182599e+09
+# HELP backmon_backup_latest_file_creation_expected_at_timestamp_seconds Unix timestamp on which the latest backup in the corresponding file group should have occurred.
+# TYPE backmon_backup_latest_file_creation_expected_at_timestamp_seconds gauge
+backmon_backup_latest_file_creation_expected_at_timestamp_seconds{dir="postgres",disk="samples/1.postgres-dumps",file="pgdump"} 1.6581852e+09
+# HELP backmon_backup_latest_file_created_at_timestamp_seconds Unix timestamp on which the latest backup in the corresponding file group was created.
+# TYPE backmon_backup_latest_file_created_at_timestamp_seconds gauge
+backmon_backup_latest_file_created_at_timestamp_seconds{dir="postgres",disk="samples/1.postgres-dumps",file="pgdump",group="backups"} 1.658182599e+09
 # HELP backmon_backup_latest_file_archived_at_timestamp_seconds Unix timestamp on which the latest file has been archived
 # TYPE backmon_backup_latest_file_archived_at_timestamp_seconds gauge
 backmon_backup_latest_file_archived_at_timestamp_seconds{dir="postgres",disk="samples/1.postgres-dumps",file="pgdump",group="backups"} 1.381818188e+09
