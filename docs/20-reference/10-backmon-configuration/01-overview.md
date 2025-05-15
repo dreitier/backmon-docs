@@ -14,9 +14,14 @@ order:
 - `${HOME}/.backmon/config.yaml`
 - `/etc/backmon/config.yaml`
 
-In the configuration file, you can use environment placeholders like `${VAR}`. Those placeholders will be replaced
+In the configuration file, you can use environment placeholders like `__${VAR}__`. Those placeholders will be replaced
 during the startup of *backmon* with the corresponding environment variables. You have to place the configuration file
 at `/etc/backmon/config-raw.yaml`.
+
+Multiple placeholders in a single element are also supported, e. g. 
+```yaml
+endpoint: "__${S3_ENDPOINT_HOST}__:__${S3_ENDPOINT_PORT}__"
+```
 
 ## Command line options for *backmon*
 

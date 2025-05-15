@@ -132,8 +132,8 @@ In your local `config.yaml`, put in the AWS access key id and secret access key:
 ```yaml
 environments:
   my_aws_environment:
-    access_key_id: ${ACCESS_KEY_ID}
-    secret_access_key: ${SECRET_ACCESS_KEY}
+    access_key_id: __${ACCESS_KEY_ID}__
+    secret_access_key: __${SECRET_ACCESS_KEY}__
     auto_discover_disks: true
 ```
 
@@ -148,9 +148,9 @@ backmon:
   environments:
     aws_prod:
       # the ${BACKMON ... } variables reference the secrets below
-      access_key_id: ${BACKMON_AWS_PROD_ACCESS_KEY_ID}
+      access_key_id: __${BACKMON_AWS_PROD_ACCESS_KEY_ID}__
       region: eu-central-1
-      secret_access_key: ${BACKMON_AWS_PROD_SECRET_ACCESS_KEY}
+      secret_access_key: __${BACKMON_AWS_PROD_SECRET_ACCESS_KEY}__
       auto_discover_disks: true
   log_level: debug
   secrets:
