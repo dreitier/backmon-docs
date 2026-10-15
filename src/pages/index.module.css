@@ -1,0 +1,185 @@
+.hero {
+  padding: 5rem 0 3rem;
+  text-align: center;
+  color: #f8fafc;
+  background:
+    radial-gradient(60rem 28rem at 50% -8rem, rgba(34, 197, 94, 0.22), transparent 70%),
+    #0b1120;
+}
+.hero h1 { font-size: clamp(2.2rem, 6vw, 4rem); line-height: 1.1; margin: 1.25rem 0; letter-spacing: -0.02em; }
+.hero h1 span { color: #4ade80; }
+.lead { max-width: 40rem; margin: 0 auto 2rem; font-size: 1.2rem; color: #cbd5e1; }
+.badge {
+  display: inline-block;
+  padding: 0.3rem 0.9rem;
+  border: 1px solid #1f3a2c;
+  border-radius: 999px;
+  background: rgba(34, 197, 94, 0.1);
+  color: #86efac;
+  font-size: 0.85rem;
+}
+.badge:hover { color: #bbf7d0; text-decoration: none; }
+.buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+.primary { background: #22c55e; color: #052e16; border: 0; font-weight: 600; }
+.primary:hover { background: #4ade80; color: #052e16; }
+.ghost { border: 1px solid #334155; color: #f8fafc; background: transparent; }
+.ghost:hover { background: #1e293b; color: #fff; }
+.cmd {
+  display: inline-block;
+  margin: 2rem 0 3rem;
+  padding: 0.6rem 1.1rem;
+  border: 1px solid #1e293b;
+  border-radius: 8px;
+  background: #020617;
+  color: #e2e8f0;
+  font: 0.95rem ui-monospace, 'JetBrains Mono', Menlo, monospace;
+}
+.cmd span { color: #22c55e; }
+.cursor { display: inline-block; width: 0.55em; height: 1.1em; margin-left: 2px; vertical-align: text-bottom; background: #22c55e; }
+
+.panel {
+  max-width: 52rem;
+  margin: 0 auto;
+  text-align: left;
+  border: 1px solid #1e293b;
+  border-radius: 12px;
+  background: #0f172a;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(34, 197, 94, 0.08);
+  overflow-x: auto;
+}
+.panelHead { display: flex; justify-content: space-between; padding: 0.8rem 1.1rem; border-bottom: 1px solid #1e293b; }
+.panelHead small { color: #94a3b8; }
+.row {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr 1fr 1fr 1fr;
+  gap: 0.75rem;
+  min-width: 34rem;
+  padding: 0.8rem 1.1rem;
+  border-bottom: 1px solid #1e293b;
+  font: 0.88rem ui-monospace, 'JetBrains Mono', Menlo, monospace;
+  color: #e2e8f0;
+}
+.row:last-child { border-bottom: 0; }
+.th { color: #94a3b8; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; }
+.pill { padding: 0.1rem 0.55rem; border-radius: 999px; font-style: normal; font-size: 0.75rem; font-weight: 600; }
+.ok { background: rgba(34, 197, 94, 0.15); color: #4ade80; }
+.warn { background: rgba(245, 158, 11, 0.15); color: #fbbf24; }
+.bad { background: rgba(239, 68, 68, 0.15); color: #f87171; }
+
+
+.page {
+  background:
+    radial-gradient(40rem 22rem at 85% 18rem, rgba(34, 197, 94, 0.07), transparent),
+    radial-gradient(40rem 22rem at 10% 70rem, rgba(34, 197, 94, 0.05), transparent),
+    #0b1120;
+  color: #f8fafc;
+}
+
+.strip > div { display: flex; flex-wrap: wrap; gap: 0.6rem 1.75rem; justify-content: center; align-items: center; padding: 2rem 1rem; color: #94a3b8; }
+.strip small { text-transform: uppercase; letter-spacing: 0.08em; color: #94a3b8; }
+.strip span { font-weight: 600; }
+
+.section { padding: 4.5rem 0; }
+.section h2 { color: #f8fafc; text-align: center; font-size: clamp(1.7rem, 4vw, 2.5rem); letter-spacing: -0.02em; margin-bottom: 3rem; }
+.section h2.left { text-align: left; }
+.eyebrow { text-align: center; margin: 0 0 0.6rem; color: #4ade80; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; }
+.faqGrid .eyebrow { text-align: left; }
+
+/* bento grid */
+.bento { display: grid; grid-template-columns: repeat(6, 1fr); gap: 1.1rem; max-width: 66rem; margin: 0 auto; }
+.s2 { grid-column: span 2; }
+.s3 { grid-column: span 3; }
+.s4 { grid-column: span 4; }
+@media (max-width: 996px) { .s2, .s4 { grid-column: span 3; } }
+@media (max-width: 640px) { .bento > * { grid-column: span 6; } }
+
+.card {
+  min-width: 0;
+  padding: 1.6rem;
+  border: 1px solid #1e293b;
+  border-radius: 16px;
+  background: linear-gradient(180deg, #0f172a, #0b1224);
+  transition: border-color 0.2s;
+}
+.card:hover { border-color: rgba(34, 197, 94, 0.45); }
+.card h3 { margin: 0.8rem 0 0.35rem; font-size: 1.15rem; color: #f8fafc; }
+.card p { margin: 0 0 1.1rem; color: #94a3b8; }
+.icon { width: 1.5rem; height: 1.5rem; color: #4ade80; }
+
+.toast {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 0.2rem 0.6rem;
+  padding: 0.7rem 0.9rem; border: 1px solid rgba(239, 68, 68, 0.35); border-radius: 10px;
+  background: rgba(239, 68, 68, 0.08); font-size: 0.85rem;
+}
+.toast i { width: 8px; height: 8px; border-radius: 50%; background: #f87171; }
+.toast b { color: #fca5a5; }
+.toast span { color: #94a3b8; width: 100%; padding-left: 1.05rem; }
+.chips { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.chips span {
+  padding: 0.25rem 0.7rem; border: 1px solid #1e293b; border-radius: 999px;
+  background: #020617; color: #cbd5e1; font: 0.8rem ui-monospace, Menlo, monospace;
+}
+.bars { display: flex; align-items: flex-end; gap: 6px; height: 4.5rem; }
+.bars i { flex: 1; border-radius: 3px 3px 0 0; background: linear-gradient(180deg, #4ade80, rgba(34, 197, 94, 0.25)); }
+
+/* shared terminal */
+.term { border: 1px solid #1e293b; border-radius: 10px; background: #020617; overflow: hidden; text-align: left; }
+.termHead { display: flex; align-items: center; gap: 6px; padding: 0.55rem 0.8rem; border-bottom: 1px solid #1e293b; }
+.termHead i { width: 9px; height: 9px; border-radius: 50%; background: #334155; }
+.termHead small { margin-left: auto; color: #94a3b8; font-family: ui-monospace, Menlo, monospace; }
+.term pre { margin: 0; padding: 0.9rem 1rem; overflow-x: auto; background: transparent; scrollbar-color: #334155 transparent; }
+.term code {
+  font: 0.8rem/1.75rem ui-monospace, 'JetBrains Mono', Menlo, monospace;
+  color: #cbd5e1; background: transparent; border: 0; padding: 0;
+}
+.term .ok { color: #86efac; background: none; }
+.term .bad { color: #fca5a5; background: none; }
+
+/* flow diagram + tabs */
+.flow { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 0.6rem 1rem; margin-bottom: 2.5rem; }
+.flow b { width: 1.75rem; height: 2px; background: linear-gradient(90deg, #334155, #22c55e); }
+.node { padding: 0.5rem 1.1rem; border: 1px solid #1e293b; border-radius: 10px; background: #0f172a; color: #cbd5e1; font-weight: 600; }
+.nodeActive { border-color: #22c55e; color: #4ade80; box-shadow: 0 0 30px rgba(34, 197, 94, 0.2); }
+.steps { max-width: 46rem; margin: 0 auto; }
+.stepText { color: #94a3b8; margin: 0.5rem 0 1rem; }
+.section :global(.tabs) { margin-bottom: 0.5rem; justify-content: center; }
+.section :global(.tabs__item) { color: #94a3b8; border-radius: 8px 8px 0 0; }
+.section :global(.tabs__item:hover) { background: #0f172a; }
+.section :global(.tabs__item--active) { color: #4ade80; border-bottom-color: #4ade80; }
+
+.two { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(22rem, 100%), 1fr)); gap: 1.1rem; max-width: 66rem; margin: 0 auto; }
+.two .card h3 { margin-top: 0; margin-bottom: 1rem; }
+
+.faqGrid { display: grid; grid-template-columns: 1fr 1.6fr; gap: 3rem; max-width: 62rem; }
+@media (max-width: 800px) { .faqGrid { grid-template-columns: 1fr; gap: 1.5rem; } }
+.faqGrid h2 { margin-bottom: 1rem; }
+.faq { border-bottom: 1px solid #1e293b; padding: 1rem 0; }
+.faq:first-child { padding-top: 0; }
+.faq summary { cursor: pointer; font-weight: 600; }
+.faq p { margin: 0.6rem 0 0; color: #94a3b8; }
+
+
+.hero > div > * { min-width: 0; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .cursor { animation: blink 1.1s steps(1) infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+}
+
+/* phones: drop the less important table columns instead of scrolling */
+.hero h1 { text-wrap: balance; }
+@media (max-width: 640px) {
+  .row { grid-template-columns: 1.5fr 0.8fr 1fr; min-width: 0; }
+  .row > :nth-child(2), .row > :nth-child(4) { display: none; }
+  .hero { padding-top: 3rem; }
+  .section { padding: 3rem 0; }
+}
+@media (max-width: 640px) {
+  .flow b { display: none; }
+  .flow { gap: 0.6rem; }
+}
+
+/* anchor targets sit below the sticky navbar */
+.section { scroll-margin-top: 3.5rem; }
+
+.page { padding-bottom: 2rem; }

@@ -28,3 +28,37 @@
   --ifm-color-primary-lightest: #4fddbf;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
 }
+
+/* landing page: dark navbar and footer to match the page's dark sections */
+body.landing .navbar {
+  background: #0b1120;
+  box-shadow: 0 1px 0 #1e293b;
+  --ifm-navbar-link-color: #e2e8f0;
+  --ifm-navbar-link-hover-color: #4ade80;
+  color: #f8fafc;
+}
+body.landing .navbar__title, body.landing .navbar__link { color: #f8fafc; }
+body.landing .footer {
+  --ifm-footer-background-color: #0b1120;
+  --ifm-footer-link-color: #94a3b8;
+  --ifm-footer-link-hover-color: #4ade80;
+  --ifm-footer-title-color: #f8fafc;
+  background: #0b1120;
+  border-top: 0;
+  color: #94a3b8;
+}
+body.landing .footer { margin-top: 0; padding-top: 1rem; }
+body.landing .footer__copyright { color: #94a3b8; }
+body.landing .footer__copyright a { color: #4ade80; }
+/* footer spans the same width as the landing CTA box (66rem + container padding) */
+body.landing .footer .container { max-width: 68rem; }
+body.landing .footer__links { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 2rem; margin: 0 0 1.5rem; }
+body.landing .footer__links .footer__col { flex: 0 0 auto; width: auto; max-width: none; margin: 0; padding: 0; }
+body.landing .footer__title { margin-bottom: 0.5rem; }
+body.landing .footer__item { margin: 0; line-height: 1.8; }
+body.landing .footer__bottom { text-align: center; padding-top: 1rem; border-top: 1px solid #1e293b; }
+
+body.landing { background: #0b1120; }
+/* overlap by 1px so a fractional layout position never shows the white page background */
+body.landing .footer { margin-top: -1px; position: relative; }
+body.landing .navbar__link--active { color: #4ade80; }

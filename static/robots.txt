@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://backmon.dreitier.com/sitemap.xml
