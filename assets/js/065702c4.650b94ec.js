@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkbackmon_docs=self.webpackChunkbackmon_docs||[]).push([[349],{5549:e=>{e.exports=JSON.parse('{"title":"Deployment","slug":"/category/deployment","permalink":"/docs/category/deployment","navigation":{"previous":{"title":"Metrics","permalink":"/docs/reference/metrics"},"next":{"title":"Standalone","permalink":"/docs/deployment/standalone"}}}')}}]);
