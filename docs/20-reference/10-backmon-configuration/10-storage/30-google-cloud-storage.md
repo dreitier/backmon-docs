@@ -131,24 +131,58 @@ environments:
 
 ### 3.2. When using Helm
 
-In your `values.yaml`, pass the service account key through a secret:
+On GKE with [Workload Identity Federation](https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity),
+no key is needed: grant the permissions to the Kubernetes service account of *backmon* and leave out the credentials.
 
 ```yaml
 backmon:
-  environments:
-    gcs_prod:
-      gcs:
-        project_id: my-gcp-project
-        # the ${BACKMON ... } variable references the secret below
-        credentials_json: __${BACKMON_GCS_PROD_KEY}__
-  secrets:
-    - key: BACKMON_GCS_PROD_KEY
-      # content of the service account key file
-      value: ${GCS_SERVICE_ACCOUNT_KEY}
+  config:
+    content: |-
+      port: 8000
+      environments:
+        gcs_prod:
+          gcs:
+            project_id: my-gcp-project
+
+serviceAccount:
+  # only if the Kubernetes service account impersonates a Google service account
+  annotations:
+    iam.gke.io/gcp-service-account: backmon@my-gcp-project.iam.gserviceaccount.com
 ```
 
-On GKE with Workload Identity Federation, no key is needed: grant the permissions to the Kubernetes service account of
-*backmon* and leave out `credentials_json`.
+Otherwise, create a Kubernetes secret with the service account key:
+
+```bash
+kubectl create secret generic backmon-gcs --from-file=key.json=gcs-service-account.json
+```
+
+Mount it into the container and point `credentials_file` to it:
+
+```yaml
+backmon:
+  config:
+    content: |-
+      port: 8000
+      environments:
+        gcs_prod:
+          gcs:
+            project_id: my-gcp-project
+            credentials_file: /etc/backmon/gcs/key.json
+
+extraVolumes:
+  - name: gcs-key
+    secret:
+      secretName: backmon-gcs
+
+extraVolumeMounts:
+  - name: gcs-key
+    mountPath: /etc/backmon/gcs
+    readOnly: true
+```
+
+Alternatively, pass the key as environment variable with `extraEnvFrom` and use it as
+`credentials_json: __${BACKMON_GCS_PROD_KEY}__`. See [Helm chart](../../../10-deployment/20-helm-chart.md#configuration)
+for details.
 
 ## Using the S3-compatible API instead
 
