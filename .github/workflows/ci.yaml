@@ -1,0 +1,65 @@
+name: CI
+
+on:
+  pull_request:
+  workflow_dispatch:
+  # the deploy workflow builds the site with this pipeline before publishing it
+  workflow_call:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      # pre-commit version: .github/requirements-ci.txt (Dependabot)
+      - name: Install pre-commit
+        run: pipx install "$(grep -E '^pre-commit==' .github/requirements-ci.txt)"
+
+      - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ~/.cache/pre-commit
+          key: pre-commit-${{ runner.os }}-${{ hashFiles('.pre-commit-config.yaml') }}
+
+      # the hooks of .pre-commit-config.yaml (actionlint, file checks), exactly as locally
+      - name: pre-commit
+        run: pre-commit run --all-files --show-diff-on-failure --color=always
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      # exactly the versions of package-lock.json; fails if it doesn't match package.json
+      - name: Install dependencies
+        run: npm ci
+
+      # fails on broken internal links (docusaurus.config.js: onBrokenLinks, onBrokenMarkdownLinks)
+      - name: Build website
+        run: npm run build
+
+      # published by deploy.yaml; on pull requests it can be downloaded to preview the site
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: website
+          path: build
+          if-no-files-found: error
+          retention-days: 7

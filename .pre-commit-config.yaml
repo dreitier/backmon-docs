@@ -1,0 +1,24 @@
+# Local checks before each commit; the CI lint job runs the same hooks (pre-commit version:
+# .github/requirements-ci.txt).
+# Setup (once per clone): `pre-commit install` (Fedora: `sudo dnf install pre-commit`)
+# Run manually on all files: `pre-commit run --all-files`
+repos:
+  - repo: https://github.com/rhysd/actionlint
+    rev: v1.7.12
+    hooks:
+      - id: actionlint
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: check-yaml
+      - id: check-json
+      - id: check-merge-conflict
+      - id: check-added-large-files
+        args: [--maxkb=1024]
+      # The documentation itself is left alone: in Markdown, trailing spaces are line breaks, and
+      # docs/ still contains files with Windows line endings.
+      - id: end-of-file-fixer
+        exclude: ^(docs|static)/
+      - id: trailing-whitespace
+        exclude: ^(docs|static)/

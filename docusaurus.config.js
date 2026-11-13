@@ -1,8 +1,7 @@
 // @ts-check
 // Note: type annotations allow type checking and IDEs autocompletion
 
-const lightCodeTheme = require('prism-react-renderer/themes/github');
-const darkCodeTheme = require('prism-react-renderer/themes/dracula');
+const {themes: prismThemes} = require('prism-react-renderer');
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
@@ -10,9 +9,21 @@ const config = {
   tagline: 'Monitoring of backup files in filesystems and object storages',
   url: 'https://backmon.dreitier.com',
   baseUrl: '/',
+  // broken links fail the build
   onBrokenLinks: 'throw',
-  onBrokenMarkdownLinks: 'warn',
+  onBrokenAnchors: 'throw',
+  markdown: {
+    hooks: {
+      onBrokenMarkdownLinks: 'throw',
+      onBrokenMarkdownImages: 'throw',
+    },
+  },
   favicon: 'img/favicon.svg',
+  // legacy .ico fallback and iOS home-screen icon
+  headTags: [
+    {tagName: 'link', attributes: {rel: 'alternate icon', href: '/img/favicon.ico', sizes: 'any'}},
+    {tagName: 'link', attributes: {rel: 'apple-touch-icon', href: '/img/apple-touch-icon.png'}},
+  ],
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
@@ -55,20 +66,6 @@ const config = {
   ],
 
   plugins: [
-    // legacy .ico fallback and iOS home-screen icon (Docusaurus 2.0 has no headTags option)
-    function iconTags() {
-      return {
-        name: 'icon-tags',
-        injectHtmlTags() {
-          return {
-            headTags: [
-              {tagName: 'link', attributes: {rel: 'alternate icon', href: '/img/favicon.ico', sizes: 'any'}},
-              {tagName: 'link', attributes: {rel: 'apple-touch-icon', href: '/img/apple-touch-icon.png'}},
-            ],
-          };
-        },
-      };
-    },
     [
       '@docusaurus/plugin-client-redirects',
       {
@@ -131,8 +128,8 @@ const config = {
         copyright: `Made by <a href="https://dreitier.com">dreitier</a>. Sharing experience.`,
       },
       prism: {
-        theme: lightCodeTheme,
-        darkTheme: darkCodeTheme,
+        theme: prismThemes.github,
+        darkTheme: prismThemes.dracula,
       },
 	  metadata: [
 	    {name: 'google-site-verification', content: 'iff1yw0ykLoAP7Z_BKK-S4XDRckQps3kLvK0byz-5WE'},

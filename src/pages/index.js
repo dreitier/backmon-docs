@@ -2,6 +2,7 @@ import React from 'react';
 import Head from '@docusaurus/Head';
 import Layout from '@theme/Layout';
 import Link from '@docusaurus/Link';
+import useBrokenLinks from '@docusaurus/useBrokenLinks';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import styles from './index.module.css';
@@ -103,6 +104,11 @@ const jsonLd = {
 };
 
 export default function Home() {
+  // the navbar links to these sections; registering them lets the build check those links (onBrokenAnchors)
+  const brokenLinks = useBrokenLinks();
+  brokenLinks.collectAnchor('features');
+  brokenLinks.collectAnchor('install');
+
   return (
     <Layout description="backmon monitors backup files in filesystems and S3-compatible object storage and exposes them as Prometheus metrics for alerting.">
       <Head>
