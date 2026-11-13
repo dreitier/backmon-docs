@@ -326,7 +326,7 @@ the latest/newest files (relevant for the `/api/download` endpoint) and oldest f
 | `born_at`       | [`born_at`](file-dates)                                 | -       |
 | `modified_at`   | [`modified_at`](file-dates)                             | -       |
 | `archived_at`   | [`archived_at`](file-dates)                             | -       |
-| `interpolation` | [interpolated timestamp](file-dates#interpolated_value) | ✓       |
+| `interpolation` | [interpolated timestamp](file-dates#interpolated_timestamp) | ✓       |
 
 If you are not using [.stat / dotstat files](file-dates#stat--dotstat-files), [
 `interpolation`](file-dates#interpolated_timestamp) is used.

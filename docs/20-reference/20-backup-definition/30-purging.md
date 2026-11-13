@@ -5,4 +5,4 @@ A purge policy is based upon two values:
 1. the *retention age* 
 2. and the *retention count*.
 
-Both values can be configured in the [*backup definition*](overview#retention).
+Both values can be configured in the [*backup definition*](overview#directoriesdirectoryfilesfileretention-count).

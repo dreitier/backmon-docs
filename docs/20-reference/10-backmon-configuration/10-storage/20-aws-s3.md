@@ -32,8 +32,8 @@ Each AWS S3 bucket is a *backmon disk*.
 ## 1. Create a backmon user
 
 In the AWS management console, go to *IAM > Users > Add users* and create a dedicated user for backmon. Just choose
-*programmatic access* and note down the *access key id* (*${ACCESS_KEY_ID}*) and *secret access key* (
-*${SECRET_ACCESS_KEY}*).
+*programmatic access* and note down the *access key id* (`${ACCESS_KEY_ID}`) and *secret access key* (
+`${SECRET_ACCESS_KEY}`).
 
 ## 2. Set up a policy
 
