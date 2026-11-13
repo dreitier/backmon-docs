@@ -122,7 +122,7 @@ export default function Home() {
             <Link className={`button button--lg ${styles.ghost}`} href="https://github.com/dreitier/backmon">Star on GitHub</Link>
           </div>
           <div className={styles.cmd}>
-            <span>$</span> helm install dreitier/backmon<i className={styles.cursor} aria-hidden="true" />
+            <span>$</span> helm install backmon dreitier/backmon<i className={styles.cursor} aria-hidden="true" />
           </div>
 
           <div className={styles.panel} role="table" aria-label="Example backup status overview">
@@ -239,7 +239,7 @@ photos/2026-w41.tar        48.2 GB`}</Term>
                 <h3>Helm</h3>
                 <Term file="shell">{`helm repo add dreitier https://dreitier.github.io/helm-charts/
 helm repo update
-helm install dreitier/backmon`}</Term>
+helm install backmon dreitier/backmon`}</Term>
               </div>
             </div>
           </div>

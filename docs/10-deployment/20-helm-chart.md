@@ -1,27 +1,41 @@
 # Helm chart
 
-We provide a [Helm chart for backmon](https://github.com/dreitier/helm-charts/).
+We provide a [Helm chart for backmon](https://github.com/dreitier/helm-charts/tree/main/charts/backmon). It requires
+Kubernetes 1.19+ and Helm 3; see the chart's
+[README](https://github.com/dreitier/helm-charts/tree/main/charts/backmon#prerequisites) for all prerequisites.
 
-You can either use that repository and install the helm chart with
+## Installation
 
-```bash
-$ git clone https://github.com/dreitier/helm-charts/
-$ cd helm-charts/charts/backmon
-$ helm install backmon
-```
+The chart is published in two places with the same versions:
 
-or add the repository:
+| Source | Location |
+|---|---|
+| Helm repository | `https://dreitier.github.io/helm-charts/` |
+| OCI registry (GitHub Container Registry) | `oci://ghcr.io/dreitier/charts/backmon` |
+
+From the Helm repository:
 
 ```bash
 $ helm repo add dreitier https://dreitier.github.io/helm-charts/
 $ helm repo update
-$ helm install dreitier/backmon
+$ helm install backmon dreitier/backmon
 ```
 
-The chart is also published as OCI artifact:
+From the OCI registry, without `helm repo add` (Helm 3.8+):
 
 ```bash
-$ helm install backmon oci://ghcr.io/dreitier/charts/backmon
+$ helm show values oci://ghcr.io/dreitier/charts/backmon
+$ helm install backmon oci://ghcr.io/dreitier/charts/backmon --version <version>
+```
+
+### Image registry
+
+By default, the chart pulls the *backmon* image from Docker Hub (`dreitier/backmon`). The same images are published to
+the GitHub Container Registry, which you can use e.g. to avoid Docker Hub's rate limits:
+
+```yaml
+image:
+  repository: ghcr.io/dreitier/backmon
 ```
 
 ## Configuration
