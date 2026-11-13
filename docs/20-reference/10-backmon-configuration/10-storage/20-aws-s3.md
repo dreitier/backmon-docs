@@ -6,8 +6,9 @@ have the following `config.yaml`:
 ```yaml
 environments:
   s3_backup:
-    access_key: my_access_key
-    secret_access_key: my_secret_access_key
+    s3:
+      access_key_id: my_access_key_id
+      secret_access_key: my_secret_access_key
 ```
 
 For a full list of configuration option for the S3 provider see [`the corresponding section`](../01-overview.md#available-configuration-keys)
@@ -94,14 +95,15 @@ the following configuration:
 ```yaml
 environments:
   aws_prod:
-    # ...
-    # set `auto_discover_disks` to false
-    auto_discover_disks: false
+    s3:
+      # ...
+      # set `auto_discover_disks` to false
+      auto_discover_disks: false
     disks:
-        include:
-          - bucket-1
-          - bucket-2
-          - bucket-3
+      include:
+        - bucket-1
+        - bucket-2
+        - bucket-3
 ```
 
 With that configuration, only bucket `bucket-1`, `bucket-2` and `bucket-3` are included.
@@ -132,32 +134,44 @@ In your local `config.yaml`, put in the AWS access key id and secret access key:
 ```yaml
 environments:
   my_aws_environment:
-    access_key_id: __${ACCESS_KEY_ID}__
-    secret_access_key: __${SECRET_ACCESS_KEY}__
-    auto_discover_disks: true
+    s3:
+      access_key_id: __${ACCESS_KEY_ID}__
+      secret_access_key: __${SECRET_ACCESS_KEY}__
+      region: eu-central-1
+      auto_discover_disks: true
 ```
 
 ### 3.2. When using Helm
 
-In your `values.yaml`, put in the AWS access key id and secret access key:
+Create a Kubernetes secret with the AWS access key id and secret access key:
+
+```bash
+kubectl create secret generic backmon-aws \
+  --from-literal=BACKMON_AWS_PROD_ACCESS_KEY_ID="${ACCESS_KEY_ID}" \
+  --from-literal=BACKMON_AWS_PROD_SECRET_ACCESS_KEY="${SECRET_ACCESS_KEY}"
+```
+
+In your `values.yaml`, reference the secret and use its keys as placeholders in the configuration:
 
 ```yaml
 backmon:
-  downloads:
-    enabled: false
-  environments:
-    aws_prod:
-      # the ${BACKMON ... } variables reference the secrets below
-      access_key_id: __${BACKMON_AWS_PROD_ACCESS_KEY_ID}__
-      region: eu-central-1
-      secret_access_key: __${BACKMON_AWS_PROD_SECRET_ACCESS_KEY}__
-      auto_discover_disks: true
-  log_level: debug
-  secrets:
-    - key: BACKMON_AWS_PROD_ACCESS_KEY_ID
-      # replace ${ACCESS_KEY_ID} with the access key id you noted down previously
-      value: ${ACCESS_KEY_ID}
-    - key: BACKMON_AWS_SECRET_ACCESS_KEY
-      # replace ${SECRET_ACCESS_KEY} with the secret access key you noted down previously
-      value: ${SECRET_ACCESS_KEY}
+  config:
+    content: |-
+      port: 8000
+      log_level: info
+      update_interval: 15m
+      environments:
+        aws_prod:
+          s3:
+            # the __${BACKMON ... }__ placeholders are replaced with the environment variables of the secret below
+            access_key_id: __${BACKMON_AWS_PROD_ACCESS_KEY_ID}__
+            secret_access_key: __${BACKMON_AWS_PROD_SECRET_ACCESS_KEY}__
+            region: eu-central-1
+            auto_discover_disks: true
+
+# each key of the secret becomes an environment variable of the backmon container
+extraEnvFrom:
+  - name: backmon-aws
 ```
+
+See [Helm chart](../../../10-deployment/20-helm-chart.md#configuration) for details.

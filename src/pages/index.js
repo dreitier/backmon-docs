@@ -24,7 +24,7 @@ function Icon({name}) {
   );
 }
 
-const integrations = ['Prometheus', 'Grafana', 'Alertmanager', 'AWS S3', 'MinIO', 'Docker', 'Helm', 'Rancher'];
+const integrations = ['Prometheus', 'Grafana', 'Alertmanager', 'AWS S3', 'MinIO', 'Google Cloud Storage', 'Docker', 'Helm', 'Rancher'];
 
 const pipeline = [
   {
@@ -66,7 +66,7 @@ const pipeline = [
 ];
 
 const faq = [
-  ['What does backmon monitor?', 'The presence, size and timestamps of recurring backup files in a filesystem or an S3-compatible object storage. It does not create backups.'],
+  ['What does backmon monitor?', 'The presence, size and timestamps of recurring backup files in a filesystem, an S3-compatible object storage or Google Cloud Storage. It does not create backups.'],
   ['Does it work with MinIO?', 'Yes. Any S3-compatible storage works, including AWS S3 and MinIO.'],
   ['How do I get alerts?', 'backmon exports Prometheus metrics. Use Alertmanager rules on those metrics to notify your team.'],
 ];
@@ -128,7 +128,7 @@ export default function Home() {
             <Link className={`button button--lg ${styles.ghost}`} href="https://github.com/dreitier/backmon">Star on GitHub</Link>
           </div>
           <div className={styles.cmd}>
-            <span>$</span> helm install dreitier/backmon<i className={styles.cursor} aria-hidden="true" />
+            <span>$</span> helm install backmon dreitier/backmon<i className={styles.cursor} aria-hidden="true" />
           </div>
 
           <div className={styles.panel} role="table" aria-label="Example backup status overview">
@@ -164,7 +164,7 @@ export default function Home() {
               <div className={`${styles.card} ${styles.s4}`}>
                 <Icon name="disk" />
                 <h3>Filesystems &amp; object storage</h3>
-                <p>Watch backup files on local disks or in S3-compatible storage like AWS S3 and MinIO.</p>
+                <p>Watch backup files on local disks, in S3-compatible storage like AWS S3 and MinIO, or in Google Cloud Storage.</p>
                 <Term file="s3://backups">{`mysql/2026-10-13.sql.gz     1.8 GB
 mysql/2026-10-12.sql.gz     1.8 GB
 photos/2026-w41.tar        48.2 GB`}</Term>
@@ -245,7 +245,7 @@ photos/2026-w41.tar        48.2 GB`}</Term>
                 <h3>Helm</h3>
                 <Term file="shell">{`helm repo add dreitier https://dreitier.github.io/helm-charts/
 helm repo update
-helm install dreitier/backmon`}</Term>
+helm install backmon dreitier/backmon`}</Term>
               </div>
             </div>
           </div>

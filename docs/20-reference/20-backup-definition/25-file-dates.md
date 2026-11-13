@@ -3,7 +3,7 @@
 For normal file systems different attributes like `*mtime*, *ctime* and *atime* exists to record the times of changes to files. Those values might change if and when files are copied to other locations like remote filesystems or object storages.
 Because of this, *backmon* internally uses 4 different types of timestamps:
 
-| Timestamp | Meaning | Default for files in local storage | Default for files in S3 |
+| Timestamp | Meaning | Default for files in local storage | Default for files in S3 and Google Cloud Storage |
 | --- | --- | --- | --- |
 | `born_at` | The time when the file has been initally created. This timestamp is the same if the file is copied to another location | *mtime* | Timestamp of upload |
 | `modified_at` | The time when the file were last modified | *mtime* | Timestamp of upload |
