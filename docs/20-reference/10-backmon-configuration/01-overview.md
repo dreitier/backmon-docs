@@ -2,7 +2,7 @@
 
 *backmon*'s binary must run either on a bare-metal host or inside a Docker container.
 It then can be configured through a configuration file.
-In it, you specify which disks, local filesystem paths or S3 buckets, have to be monitored.
+In it, you specify which disks, local filesystem paths, S3 buckets or Google Cloud Storage buckets, have to be monitored.
 
 *backmon* inspects each of the configured disks. If a [backup definition](../20-backup-definition/10-overview.md) is
 found in a disk, its [backup definition](../20-backup-definition/10-overview.md) is applied.
@@ -71,6 +71,13 @@ environments:
         - my-secret-bucket-2
         - "/regular_ex.*ssions_are_supported/"
       all_others: exclude
+  env_3:
+    gcs:
+      project_id: my-gcp-project
+      credentials_file: /etc/backmon/gcs-service-account.json
+    disks:
+      exclude:
+        - my-secret-bucket-3
 
 ```
 
@@ -90,7 +97,7 @@ environments:
 | `environments`                              | `<empty>` (*list of environment*)         | No       | Each `environment` to check.                                                                                                                                                        |
 | `environments[]`                            | `<empty>` (*string*)                      | __Yes__  | Name of environment.                                                                                                                                                                |
 | `environments[$env].definitions`            | `backup_definitions.yaml` (*string*)      | No       | YAML file containing the backup definitions.                                                                                                                                        |
-| `environments[$env].path`                   | `<empty>` (*string*)                      | No       | Local path to check for. If you use the `path` parameter, other parameters specific for S3 are ignored.                                                                             |
+| `environments[$env].path`                   | `<empty>` (*string*)                      | No       | Local path to check for. If you use the `path` parameter, other parameters specific for S3 or Google Cloud Storage are ignored.                                                                             |
 | `environments[$env].s3.region`              | `eu-central-1` (*string*)                 | No       | AWS region                                                                                                                                                                          |
 | `environments[$env].s3.access_key_id`       | `<empty>` (*string*)                      | __Yes__  | AWS Access Key                                                                                                                                                                      |
 | `environments[$env].s3.secret_access_key`   | `<empty>` (*string*)                      | __Yes__  | AWS Secret Access Key                                                                                                                                                               |
@@ -100,6 +107,13 @@ environments:
 | `environments[$env].s3.tls_skip_verify`     | `false` (*bool*)                          | No       | Whether to verify the X.509 certificated presented by the S3 endpoint. This is intended primarily for accessing a local S3 endpoint which uses a self signed certificate            |
 | `environments[$env].s3.token`               | `<empty>` (*string*)                      | No       | AWS STS session token. You can leave that empty.                                                                                                                                    |
 | `environments[$env].s3.auto_discover_disks` | `true` (*bool*)                           | No       | Automatically iterate over each S3 bucket.                                                                                                                                          |
+| `environments[$env].gcs.project_id`         | `<empty>` (*string*)                      | No       | Google Cloud project whose buckets are discovered. Defaults to the project of the credentials; required for `auto_discover_disks` if the credentials do not belong to a project. |
+| `environments[$env].gcs.credentials_file`   | `<empty>` (*string*)                      | No       | Path to the JSON key file of a service account. Without `credentials_file` and `credentials_json`, Application Default Credentials are used. |
+| `environments[$env].gcs.credentials_json`   | `<empty>` (*string*)                      | No       | Content of the JSON key file of a service account. Mutually exclusive with `credentials_file`. |
+| `environments[$env].gcs.anonymous`          | `false` (*bool*)                          | No       | Send requests without authentication. This is intended for public buckets and emulators. |
+| `environments[$env].gcs.endpoint`           | `<empty>` (*string*)                      | No       | Custom endpoint of the Cloud Storage JSON API instead of `https://storage.googleapis.com`, e.g. for emulators. |
+| `environments[$env].gcs.proxy`              | `<empty>` (*string*)                      | No       | HTTP proxy for all requests of this environment. Without it, the environment variables `HTTP_PROXY`, `HTTPS_PROXY` and `NO_PROXY` apply. |
+| `environments[$env].gcs.auto_discover_disks` | `true` (*bool*)                           | No       | Automatically iterate over each bucket of the project. |
 | `environments[$env].disks.include`          | `<empty>` (*list of strings*)             | No       | Only include the disks with the given name; case-sensitive; regular expressions are supported.                                                                                      | 
 | `environments[$env].disks.exclude`          | `<empty>` (*list of strings*)             | No       | Only include the disks with the given name; case-sensitive; regular expressions are supported.                                                                                      | 
 | `environments[$env].disks.all_others`       | `include` (*one of `include`, `exclude`*) | No       | Behaviour for disks which are not explicitly included or excluded.                                                                                                                  |
@@ -129,6 +143,6 @@ disks:
 ```
 
 :::info
-If you have set `environments[$env].s3.auto_discover_disks` to `false`, only the `disks.include` configuration parameter
+If you have set `environments[$env].s3.auto_discover_disks` or `environments[$env].gcs.auto_discover_disks` to `false`, only the `disks.include` configuration parameter
 makes any sense.
 :::
