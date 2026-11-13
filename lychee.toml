@@ -1,0 +1,21 @@
+# Configuration of the weekly check of external links (.github/workflows/links.yaml)
+# https://lychee.cli.rs/guides/config/
+
+# internal links are checked by the Docusaurus build
+scheme = ["https", "http"]
+
+max_retries = 3
+timeout = 30
+# 429: rate limited, the link itself is fine
+accept = ["200..=299", "429"]
+
+exclude = [
+  # examples in the documentation
+  '^https?://localhost',
+  '^https?://[^/]*\.example\.(com|org)',
+  '^https?://my-',
+  '^https?://chart-example\.local',
+  # placeholders of code examples
+  '\$\{',
+  '<version>',
+]

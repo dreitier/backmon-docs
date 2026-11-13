@@ -11,7 +11,7 @@ const config = {
   url: 'https://backmon.dreitier.com',
   baseUrl: '/',
   onBrokenLinks: 'throw',
-  onBrokenMarkdownLinks: 'warn',
+  onBrokenMarkdownLinks: 'throw',
   favicon: 'img/favicon.svg',
 
   // GitHub pages deployment config.

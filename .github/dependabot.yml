@@ -1,0 +1,69 @@
+# Dependency updates. "daily" runs Monday to Friday.
+version: 2
+
+updates:
+  # Docusaurus and the other packages the site is built with
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: "06:00"
+      timezone: Europe/Berlin
+    commit-message:
+      prefix: build
+      include: scope
+    groups:
+      # the Docusaurus packages are released together and have to be on the same version
+      docusaurus:
+        patterns:
+          - "@docusaurus/*"
+      # everything else in one pull request, except major versions
+      npm:
+        patterns:
+          - "*"
+        exclude-patterns:
+          - "@docusaurus/*"
+        update-types:
+          - minor
+          - patch
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: daily
+      time: "06:00"
+      timezone: Europe/Berlin
+    commit-message:
+      prefix: ci
+      include: scope
+    groups:
+      github-actions:
+        patterns:
+          - "*"
+
+  # hook versions in .pre-commit-config.yaml; the CI lint job runs the same hooks
+  - package-ecosystem: pre-commit
+    directory: /
+    schedule:
+      interval: daily
+      time: "06:00"
+      timezone: Europe/Berlin
+    commit-message:
+      prefix: ci
+      include: scope
+    groups:
+      pre-commit:
+        patterns:
+          - "*"
+
+  # pre-commit itself for the CI lint job (.github/requirements-ci.txt)
+  - package-ecosystem: pip
+    directory: /.github
+    schedule:
+      interval: daily
+      time: "06:00"
+      timezone: Europe/Berlin
+    commit-message:
+      prefix: ci
+      include: scope
