@@ -319,7 +319,7 @@ Put in your crontab definition for when the backup should occur.
 ### `directories.[$directory].files[$file].sort`
 
 With help of `.sort` you can define which of the backup file's fields is used for sorting. Sorting is used for finding
-the latest/newest files (relevant for the `/api/download` endpoint) and oldest files (relevant for purging).
+the latest/newest files (relevant for [downloads](../30-api.md#download)) and oldest files (relevant for purging).
 
 | Key             | Timestamp used                                          | Default |
 |-----------------|---------------------------------------------------------|---------|
