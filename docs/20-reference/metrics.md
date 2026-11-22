@@ -28,6 +28,18 @@ Total number of environments, configured in the `config.yaml`.
 
 Total number of discovered disks. This includes also the number of inactive disks, e.g. if permissions are missing.
 
+### `backmon_config_last_reload_successful`
+
+Whether the last attempt to load the configuration file was successful (`1`) or not (`0`). It is `1` after the start
+and changes with each [reload of the configuration](10-backmon-configuration/01-overview.md#reloading-the-configuration).
+After a failed reload *backmon* keeps running with the previous configuration, so you should alert on
+`backmon_config_last_reload_successful == 0`.
+
+### `backmon_config_last_reload_success_timestamp_seconds`
+
+Unix timestamp of the last successful load of the configuration file, i.e. the start of *backmon* or the last
+successful reload.
+
 ### `backmon_definition_status`
 
 This is a special metric that reports on the status of a definitions file.
