@@ -39,8 +39,26 @@ $ ./backmon
 ```
 
 *backmon* looks for `config.yaml` in the current directory, in `${HOME}/.backmon` and in `/etc/backmon`. In a
-terminal it runs interactively (`r` rescans the disks, `q` quits); start it with `-background` to disable that, e.g.
-as a service.
+terminal it runs interactively (`r` reloads the configuration and rescans the disks, `q` quits); start it with
+`-background` to disable that, e.g. as a service.
+
+## Reloading the configuration
+
+*backmon* [reloads its configuration file](../20-reference/10-backmon-configuration/01-overview.md#reloading-the-configuration)
+and rescans the disks when it receives `SIGHUP`:
+
+```bash
+# process on a host
+$ kill -HUP "$(pidof backmon)"
+# systemd; the unit file of the release archives contains ExecReload
+$ systemctl reload backmon
+# container
+$ docker kill --signal HUP <container>
+```
+
+A container only sees a changed configuration file if the file is modified in place. Editors which replace the file
+(e.g. `vim` or `sed -i`) break a bind mount of the single file; mount the directory instead
+(`-v "$PWD/config:/etc/backmon"`).
 
 ## Kubernetes
 

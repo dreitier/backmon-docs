@@ -80,5 +80,23 @@ replaced with environment variables when *backmon* starts. The environment varia
 If you want to manage the configuration file yourself, set `backmon.config.enabled` to `false` and mount your own file
 at `/etc/backmon/config.yaml` with `extraVolumes` and `extraVolumeMounts`.
 
+### Reloading the configuration
+
+*backmon* reads its configuration file and the environment variables for the placeholders when it starts. The chart
+therefore restarts the pod instead of [reloading the configuration](../20-reference/10-backmon-configuration/01-overview.md#reloading-the-configuration)
+in place:
+
+- A changed `backmon.config.content` rolls the deployment on `helm upgrade`, as the pod is annotated with a checksum
+  of the configuration.
+- Secrets and configmaps which are not rendered by the chart (`extraEnvFrom`, `extraEnv`, `extraVolumes`) can change
+  without Helm noticing, e.g. if they are managed by External Secrets. Set `reloader.enabled` to `true` to have
+  [Stakater Reloader](https://github.com/stakater/Reloader) restart the pod whenever a secret or configmap referenced
+  by it changes. Reloader has to be installed in the cluster.
+
+```yaml
+reloader:
+  enabled: true
+```
+
 For storage-specific examples see [AWS S3](../20-reference/10-backmon-configuration/10-storage/20-aws-s3.md#32-when-using-helm)
 and [Google Cloud Storage](../20-reference/10-backmon-configuration/10-storage/30-google-cloud-storage.md#32-when-using-helm).

@@ -23,6 +23,28 @@ Multiple placeholders in a single element are also supported, e. g.
 endpoint: "__${S3_ENDPOINT_HOST}__:__${S3_ENDPOINT_PORT}__"
 ```
 
+## Reloading the configuration
+
+*backmon* reads the configuration file when it starts. To apply a changed file without a restart, send `SIGHUP` to the
+process (see [Standalone](../../10-deployment/10-standalone.md#reloading-the-configuration)) or press `r` in
+interactive mode. *backmon* then reads the same file again and rescans all disks.
+
+| Configuration | Applied by a reload |
+|---|---|
+| `environments` | Yes. Added environments are monitored, removed ones are dropped together with their metrics. Changed ones (e.g. rotated credentials, `disks`) keep their metrics until the rescan has finished. |
+| `update_interval`, `log_level` | Yes |
+| `http.basic_auth`, `downloads.enabled` | Yes, for the next request |
+| `port`, `http.tls` | No. *backmon* logs a warning that a restart is required. |
+
+- An invalid configuration file is rejected as a whole, even if only one environment is invalid: *backmon* logs the
+  error and keeps running with the active configuration. The metric
+  [`backmon_config_last_reload_successful`](../metrics.md#backmon_config_last_reload_successful) is `0` until a reload
+  succeeds.
+- Placeholders like `__${VAR}__` are replaced again, but with the environment variables the process has been started
+  with. Changed environment variables always need a restart.
+- In Kubernetes, the Helm chart [restarts the pod](../../10-deployment/20-helm-chart.md#reloading-the-configuration)
+  instead of reloading.
+
 ## Command line options for *backmon*
 
 | Option    | Default          | Description                                                        |
