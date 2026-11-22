@@ -1,7 +1,7 @@
 # API
 
 Besides the [metrics](metrics.md), *backmon* serves a read-only API below `/api`. With it you can browse the monitored
-disks and download the latest backup of a file.
+disks and download the latest backup of a file. The [web UI](35-web-ui.md) contains a browser for it.
 
 :::info
 
@@ -48,7 +48,7 @@ Names are percent-encoded in links. The name of a disk of the
 | [Download](#download)     | `/api/{disk}/{directory}/{file}/{variant}` | -                  |
 
 Directories and files are addressed by their `alias` of the
-[backup definition](20-backup-definition/10-overview.md). All resources only support `GET`. `/` redirects to `/api`.
+[backup definition](20-backup-definition/10-overview.md). All resources only support `GET`. `/` redirects to `/api`; browsers get the [web UI](35-web-ui.md) instead.
 
 ### Entry point
 
@@ -175,7 +175,8 @@ the proxy has to send the prefix in the `X-Forwarded-Prefix` header:
 X-Forwarded-Prefix: /backmon
 ```
 
-The links and the redirect from `/` to `/api` then start with the prefix, e.g. `/backmon/api/my-bucket`.
+The links, the redirect from `/` to `/api` and the paths of the [web UI](35-web-ui.md) then start with the prefix,
+e.g. `/backmon/api/my-bucket`.
 
 | Reverse proxy | Configuration                                                                                   |
 |---------------|-------------------------------------------------------------------------------------------------|
