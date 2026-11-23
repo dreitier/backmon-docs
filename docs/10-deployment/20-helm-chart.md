@@ -77,6 +77,10 @@ replaced with environment variables when *backmon* starts. The environment varia
 | `extraVolumes`      | Additional volumes of the pod, e.g. a secret with a key file or a volume with backups    |
 | `extraVolumeMounts` | Mounts of the additional volumes into the *backmon* container                             |
 
+On AWS, no credentials have to be stored at all, if an IAM role is bound to the service account of *backmon* with
+`serviceAccount.annotations`, see
+[IAM roles for service accounts (IRSA)](../20-reference/10-backmon-configuration/10-storage/20-aws-s3.md#41-iam-roles-for-service-accounts-irsa).
+
 If you want to manage the configuration file yourself, set `backmon.config.enabled` to `false` and mount your own file
 at `/etc/backmon/config.yaml` with `extraVolumes` and `extraVolumeMounts`.
 
