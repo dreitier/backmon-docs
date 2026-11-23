@@ -55,6 +55,9 @@ jobs:
       # fails on broken internal links (docusaurus.config.js: onBrokenLinks, onBrokenMarkdownLinks)
       - name: Build website
         run: npm run build
+        env:
+          # looks up the latest release of backmon for the landing page (docusaurus.config.js)
+          GITHUB_TOKEN: ${{ github.token }}
 
       # published by deploy.yaml; on pull requests it can be downloaded to preview the site
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2

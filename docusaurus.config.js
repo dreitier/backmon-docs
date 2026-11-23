@@ -3,8 +3,54 @@
 
 const {themes: prismThemes} = require('prism-react-renderer');
 
-/** @type {import('@docusaurus/types').Config} */
-const config = {
+/**
+ * Latest release of backmon, e.g. `6.1.0`; shown on the landing page (src/pages/index.js).
+ * `BACKMON_VERSION` overrides the lookup. If the lookup fails, e.g. when working offline, the version is left out.
+ *
+ * @returns {Promise<string>}
+ */
+async function latestBackmonVersion() {
+  if (process.env.BACKMON_VERSION) {
+    return process.env.BACKMON_VERSION.replace(/^v/, '');
+  }
+
+  try {
+    /** @type {Record<string, string>} */
+    const headers = {Accept: 'application/vnd.github+json'};
+
+    // unauthenticated requests share a low rate limit, which runners of GitHub Actions regularly exceed
+    if (process.env.GITHUB_TOKEN) {
+      headers.Authorization = `Bearer ${process.env.GITHUB_TOKEN}`;
+    }
+
+    const response = await fetch('https://api.github.com/repos/dreitier/backmon/releases/latest', {
+      headers,
+      signal: AbortSignal.timeout(10000),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP status ${response.status}`);
+    }
+
+    const tagName = (await response.json()).tag_name;
+
+    if (typeof tagName !== 'string' || tagName === '') {
+      throw new Error('response contains no tag_name');
+    }
+
+    return tagName.replace(/^v/, '');
+  } catch (err) {
+    console.warn(`[WARNING] Unable to look up the latest release of backmon, the landing page shows no version: ${err}`);
+    return '';
+  }
+}
+
+/** @returns {Promise<import('@docusaurus/types').Config>} */
+module.exports = async function createConfig() {
+  return {
+  customFields: {
+    backmonVersion: await latestBackmonVersion(),
+  },
   title: 'backmon',
   tagline: 'Monitoring of backup files in filesystems and object storages',
   url: 'https://backmon.dreitier.com',
@@ -136,6 +182,5 @@ const config = {
 	    {name: 'msvalidate.01', content: 'FF94065F279E18FFAB402CDF11131567'},
 	  ],
     }),
+  };
 };
-
-module.exports = config;
