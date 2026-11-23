@@ -3,6 +3,7 @@ import Head from '@docusaurus/Head';
 import Layout from '@theme/Layout';
 import Link from '@docusaurus/Link';
 import useBrokenLinks from '@docusaurus/useBrokenLinks';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import styles from './index.module.css';
@@ -109,6 +110,9 @@ export default function Home() {
   brokenLinks.collectAnchor('features');
   brokenLinks.collectAnchor('install');
 
+  // latest release of backmon, looked up when the site is built (docusaurus.config.js); empty if the lookup failed
+  const {backmonVersion} = useDocusaurusContext().siteConfig.customFields;
+
   return (
     <Layout description="backmon monitors backup files in filesystems and S3-compatible object storage and exposes them as Prometheus metrics for alerting.">
       <Head>
@@ -117,7 +121,7 @@ export default function Home() {
       </Head>
       <header className={styles.hero}>
         <div className="container">
-          <Link className={styles.badge} to="/docs/intro">v3.2.2 · Prometheus-native backup monitoring</Link>
+          <Link className={styles.badge} to="/docs/intro">{backmonVersion ? `v${backmonVersion} · ` : ''}Prometheus-native backup monitoring</Link>
           <h1>Know your backups ran.<br /><span>Before you need them.</span></h1>
           <p className={styles.lead}>
             backmon watches backup files in filesystems and S3-compatible object storage

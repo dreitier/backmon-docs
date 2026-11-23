@@ -4,6 +4,10 @@ on:
   push:
     branches:
       - main
+  # sent by the release workflow of backmon: the landing page shows the latest release, which is looked up when
+  # the site is built (docusaurus.config.js). Always runs on main.
+  repository_dispatch:
+    types: [backmon-released]
   workflow_dispatch:
 
 permissions:
